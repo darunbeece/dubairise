@@ -49,6 +49,7 @@ define(["../components/my-app.js"],function(_myApp){"use strict";class MyHome ex
           line-height:18px;
           font-weight:400;
         }
+
         p{
           color: #848484;font-size: 17px;
         }
@@ -108,7 +109,7 @@ define(["../components/my-app.js"],function(_myApp){"use strict";class MyHome ex
                   <h1>WORK SMART </br>    WIN PROJECTS</h1>
                   <p> Identify new construction developments and track their progress to identify potential customers.</p>
                   <div >
-                  <div class="button oval">Get Started</div>
+                  <div class="button custom-button">Get Started</div>
                   </div>
                 </div>
               

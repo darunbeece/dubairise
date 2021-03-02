@@ -81,43 +81,576 @@ define(["../components/my-app.js"],function(_myApp){"use strict";const template=
 <g id="web"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"></path></g>
 <g id="web-asset"><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm0 14H5V8h14v10z"></path></g>
 </defs></svg>
-</iron-iconset-svg>`;document.head.appendChild(template.content);class MyEvent extends _myApp.PageViewElement{static get properties(){return{userCount:{type:Number}}}static get styles(){return[_myApp.sharedStyles,_myApp.css`
-        :host {
-          display: block;
-        }
-        
-      .dtr-section{
-        width:80%;
-        margin:0 auto;
-        text-align: justify;
+</iron-iconset-svg>`;document.head.appendChild(template.content);(0,_myApp.Polymer)({is:"paper-icon-button",_template:_myApp.html$1`
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        padding: 8px;
+        outline: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        z-index: 0;
+        line-height: 1;
+
+        width: 40px;
+        height: 40px;
+
+        /*
+          NOTE: Both values are needed, since some phones require the value to
+          be \`transparent\`.
+        */
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+
+        /* Because of polymer/2558, this style has lower specificity than * */
+        box-sizing: border-box !important;
+
+        @apply --paper-icon-button;
       }
-      `]}constructor(){super()}updated(changedProps){if(changedProps.has("data")){}}load(){try{this.updateComplete.then(()=>{console.log("Loaded Event")})}catch(error){console.log(error)}}render(){try{return _myApp.html`
-      <div class="main-banner-content dtr-section">
-      <h1 style="padding-left: 20px;padding-right: 20px; ">
-        அறம். பொருள். தமிழ்.<br> 
-        <span style="font-size: 30px;  padding-left: 0px;padding-right: 20px;">Global Summit Jan 15-Feb 08, 2021</span>
-      </h1>
-      <p  style="color: #848484;font-size: 17px;  padding-left: 20px;padding-right: 20px;">Thai Pongal Summit takes up as a Special Mission to support efforts to establish a Tamil Chair at the University of Toronto. Toronto will be the future global city of Tamils.</p>
+
+      :host #ink {
+        color: var(--paper-icon-button-ink-color, var(--primary-text-color));
+        opacity: 0.6;
+      }
+
+      :host([disabled]) {
+        color: var(--paper-icon-button-disabled-text, var(--disabled-text-color));
+        pointer-events: none;
+        cursor: auto;
+
+        @apply --paper-icon-button-disabled;
+      }
+
+      :host([hidden]) {
+        display: none !important;
+      }
+
+      :host(:hover) {
+        @apply --paper-icon-button-hover;
+      }
+
+      iron-icon {
+        --iron-icon-width: 100%;
+        --iron-icon-height: 100%;
+      }
+    </style>
+
+    <iron-icon id="icon" src="[[src]]" icon="[[icon]]"
+               alt$="[[alt]]"></iron-icon>
+  `,hostAttributes:{role:"button",tabindex:"0"},behaviors:[_myApp.PaperInkyFocusBehavior],registered:function(){this._template.setAttribute("strip-whitespace","")},properties:{/**
+     * The URL of an image for the icon. If the src property is specified,
+     * the icon property should not be.
+     */src:{type:String},/**
+     * Specifies the icon name or index in the set of icons available in
+     * the icon's icon set. If the icon property is specified,
+     * the src property should not be.
+     */icon:{type:String},/**
+     * Specifies the alternate text for the button, for accessibility.
+     */alt:{type:String,observer:"_altChanged"}},_altChanged:function(newValue,oldValue){var label=this.getAttribute("aria-label");// Don't stomp over a user-set aria-label.
+if(!label||oldValue==label){this.setAttribute("aria-label",newValue)}}});(0,_myApp.Polymer)({_template:_myApp.html$1`
+    <style>
+      :host {
+        @apply --layout-inline;
+        @apply --layout-center;
+        @apply --layout-center-justified;
+        @apply --layout-flex-auto;
+
+        position: relative;
+        padding: 0 12px;
+        overflow: hidden;
+        cursor: pointer;
+        vertical-align: middle;
+
+        @apply --paper-font-common-base;
+        @apply --paper-tab;
+      }
+
+      :host(:focus) {
+        outline: none;
+      }
+
+      :host([link]) {
+        padding: 0;
+      }
+
+      .tab-content {
+        height: 100%;
+        transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+        transition: opacity 0.1s cubic-bezier(0.4, 0.0, 1, 1);
+        @apply --layout-horizontal;
+        @apply --layout-center-center;
+        @apply --layout-flex-auto;
+        @apply --paper-tab-content;
+      }
+
+      :host(:not(.iron-selected)) > .tab-content {
+        opacity: 0.8;
+
+        @apply --paper-tab-content-unselected;
+      }
+
+      :host(:focus) .tab-content {
+        opacity: 1;
+        font-weight: 700;
+
+        @apply --paper-tab-content-focused;
+      }
+
+      paper-ripple {
+        color: var(--paper-tab-ink, var(--paper-yellow-a100));
+      }
+
+      .tab-content > ::slotted(a) {
+        @apply --layout-flex-auto;
+
+        height: 100%;
+      }
+    </style>
+
+    <div class="tab-content">
+      <slot></slot>
+    </div>
+`,is:"paper-tab",behaviors:[_myApp.IronControlState,_myApp.IronButtonState,_myApp.PaperRippleBehavior],properties:{/**
+     * If true, the tab will forward keyboard clicks (enter/space) to
+     * the first anchor element found in its descendants
+     */link:{type:Boolean,value:!1,reflectToAttribute:!0}},/** @private */hostAttributes:{role:"tab"},listeners:{down:"_updateNoink",tap:"_onTap"},attached:function(){this._updateNoink()},get _parentNoink(){var parent=(0,_myApp.dom)(this).parentNode;return!!parent&&!!parent.noink},_updateNoink:function(){this.noink=!!this.noink||!!this._parentNoink},_onTap:function(event){if(this.link){var anchor=this.queryEffectiveChildren("a");if(!anchor){return}// Don't get stuck in a loop delegating
+// the listener from the child anchor
+if(event.target===anchor){return}anchor.click()}}});const template$1=_myApp.html$1`<iron-iconset-svg name="paper-tabs" size="24">
+<svg><defs>
+<g id="chevron-left"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></g>
+<g id="chevron-right"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></g>
+</defs></svg>
+</iron-iconset-svg>`;document.head.appendChild(template$1.content);(0,_myApp.Polymer)({_template:_myApp.html$1`
+    <style>
+      :host {
+        @apply --layout;
+        @apply --layout-center;
+
+        height: 48px;
+        font-size: 14px;
+        font-weight: 500;
+        overflow: hidden;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+
+        /* NOTE: Both values are needed, since some phones require the value to be \`transparent\`. */
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+
+        @apply --paper-tabs;
+      }
+
+      :host(:dir(rtl)) {
+        @apply --layout-horizontal-reverse;
+      }
+
+      #tabsContainer {
+        position: relative;
+        height: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        @apply --layout-flex-auto;
+        @apply --paper-tabs-container;
+      }
+
+      #tabsContent {
+        height: 100%;
+        -moz-flex-basis: auto;
+        -ms-flex-basis: auto;
+        flex-basis: auto;
+        @apply --paper-tabs-content;
+      }
+
+      #tabsContent.scrollable {
+        position: absolute;
+        white-space: nowrap;
+      }
+
+      #tabsContent:not(.scrollable),
+      #tabsContent.scrollable.fit-container {
+        @apply --layout-horizontal;
+      }
+
+      #tabsContent.scrollable.fit-container {
+        min-width: 100%;
+      }
+
+      #tabsContent.scrollable.fit-container > ::slotted(*) {
+        /* IE - prevent tabs from compressing when they should scroll. */
+        -ms-flex: 1 0 auto;
+        -webkit-flex: 1 0 auto;
+        flex: 1 0 auto;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .not-visible {
+        opacity: 0;
+        cursor: default;
+      }
+
+      paper-icon-button {
+        width: 48px;
+        height: 48px;
+        padding: 12px;
+        margin: 0 4px;
+      }
+
+      #selectionBar {
+        position: absolute;
+        height: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-bottom: 2px solid var(--paper-tabs-selection-bar-color, var(--paper-yellow-a100));
+          -webkit-transform: scale(0);
+        transform: scale(0);
+          -webkit-transform-origin: left center;
+        transform-origin: left center;
+          transition: -webkit-transform;
+        transition: transform;
+
+        @apply --paper-tabs-selection-bar;
+      }
+
+      #selectionBar.align-bottom {
+        top: 0;
+        bottom: auto;
+      }
+
+      #selectionBar.expand {
+        transition-duration: 0.15s;
+        transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
+      }
+
+      #selectionBar.contract {
+        transition-duration: 0.18s;
+        transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+      }
+
+      #tabsContent > ::slotted(:not(#selectionBar)) {
+        height: 100%;
+      }
+    </style>
+
+    <paper-icon-button icon="paper-tabs:chevron-left" class$="[[_computeScrollButtonClass(_leftHidden, scrollable, hideScrollButtons)]]" on-up="_onScrollButtonUp" on-down="_onLeftScrollButtonDown" tabindex="-1"></paper-icon-button>
+
+    <div id="tabsContainer" on-track="_scroll" on-down="_down">
+      <div id="tabsContent" class$="[[_computeTabsContentClass(scrollable, fitContainer)]]">
+        <div id="selectionBar" class$="[[_computeSelectionBarClass(noBar, alignBottom)]]" on-transitionend="_onBarTransitionEnd"></div>
+        <slot></slot>
+      </div>
+    </div>
+
+    <paper-icon-button icon="paper-tabs:chevron-right" class$="[[_computeScrollButtonClass(_rightHidden, scrollable, hideScrollButtons)]]" on-up="_onScrollButtonUp" on-down="_onRightScrollButtonDown" tabindex="-1"></paper-icon-button>
+`,is:"paper-tabs",behaviors:[_myApp.IronResizableBehavior,_myApp.IronMenubarBehavior],properties:{/**
+     * If true, ink ripple effect is disabled. When this property is changed,
+     * all descendant `<paper-tab>` elements have their `noink` property
+     * changed to the new value as well.
+     */noink:{type:Boolean,value:!1,observer:"_noinkChanged"},/**
+     * If true, the bottom bar to indicate the selected tab will not be shown.
+     */noBar:{type:Boolean,value:!1},/**
+     * If true, the slide effect for the bottom bar is disabled.
+     */noSlide:{type:Boolean,value:!1},/**
+     * If true, tabs are scrollable and the tab width is based on the label
+     * width.
+     */scrollable:{type:Boolean,value:!1},/**
+     * If true, tabs expand to fit their container. This currently only applies
+     * when scrollable is true.
+     */fitContainer:{type:Boolean,value:!1},/**
+     * If true, dragging on the tabs to scroll is disabled.
+     */disableDrag:{type:Boolean,value:!1},/**
+     * If true, scroll buttons (left/right arrow) will be hidden for scrollable
+     * tabs.
+     */hideScrollButtons:{type:Boolean,value:!1},/**
+     * If true, the tabs are aligned to bottom (the selection bar appears at the
+     * top).
+     */alignBottom:{type:Boolean,value:!1},selectable:{type:String,value:"paper-tab"},/**
+     * If true, tabs are automatically selected when focused using the
+     * keyboard.
+     */autoselect:{type:Boolean,value:!1},/**
+     * The delay (in milliseconds) between when the user stops interacting
+     * with the tabs through the keyboard and when the focused item is
+     * automatically selected (if `autoselect` is true).
+     */autoselectDelay:{type:Number,value:0},_step:{type:Number,value:10},_holdDelay:{type:Number,value:1},_leftHidden:{type:Boolean,value:!1},_rightHidden:{type:Boolean,value:!1},_previousTab:{type:Object}},/** @private */hostAttributes:{role:"tablist"},listeners:{"iron-resize":"_onTabSizingChanged","iron-items-changed":"_onTabSizingChanged","iron-select":"_onIronSelect","iron-deselect":"_onIronDeselect"},/**
+   * @type {!Object}
+   */keyBindings:{"left:keyup right:keyup":"_onArrowKeyup"},created:function(){this._holdJob=null;this._pendingActivationItem=void 0;this._pendingActivationTimeout=void 0;this._bindDelayedActivationHandler=this._delayedActivationHandler.bind(this);this.addEventListener("blur",this._onBlurCapture.bind(this),!0)},ready:function(){this.setScrollDirection("y",this.$.tabsContainer)},detached:function(){this._cancelPendingActivation()},_noinkChanged:function(noink){var childTabs=(0,_myApp.dom)(this).querySelectorAll("paper-tab");childTabs.forEach(noink?this._setNoinkAttribute:this._removeNoinkAttribute)},_setNoinkAttribute:function(element){element.setAttribute("noink","")},_removeNoinkAttribute:function(element){element.removeAttribute("noink")},_computeScrollButtonClass:function(hideThisButton,scrollable,hideScrollButtons){if(!scrollable||hideScrollButtons){return"hidden"}if(hideThisButton){return"not-visible"}return""},_computeTabsContentClass:function(scrollable,fitContainer){return scrollable?"scrollable"+(fitContainer?" fit-container":""):" fit-container"},_computeSelectionBarClass:function(noBar,alignBottom){if(noBar){return"hidden"}else if(alignBottom){return"align-bottom"}return""},// TODO(cdata): Add `track` response back in when gesture lands.
+_onTabSizingChanged:function(){this.debounce("_onTabSizingChanged",function(){this._scroll();this._tabChanged(this.selectedItem)},10)},_onIronSelect:function(event){this._tabChanged(event.detail.item,this._previousTab);this._previousTab=event.detail.item;this.cancelDebouncer("tab-changed")},_onIronDeselect:function(event){this.debounce("tab-changed",function(){this._tabChanged(null,this._previousTab);this._previousTab=null;// See polymer/polymer#1305
+},1)},_activateHandler:function(){// Cancel item activations scheduled by keyboard events when any other
+// action causes an item to be activated (e.g. clicks).
+this._cancelPendingActivation();_myApp.IronMenuBehaviorImpl._activateHandler.apply(this,arguments)},/**
+   * Activates an item after a delay (in milliseconds).
+   */_scheduleActivation:function(item,delay){this._pendingActivationItem=item;this._pendingActivationTimeout=this.async(this._bindDelayedActivationHandler,delay)},/**
+   * Activates the last item given to `_scheduleActivation`.
+   */_delayedActivationHandler:function(){var item=this._pendingActivationItem;this._pendingActivationItem=void 0;this._pendingActivationTimeout=void 0;item.fire(this.activateEvent,null,{bubbles:!0,cancelable:!0})},/**
+   * Cancels a previously scheduled item activation made with
+   * `_scheduleActivation`.
+   */_cancelPendingActivation:function(){if(this._pendingActivationTimeout!==void 0){this.cancelAsync(this._pendingActivationTimeout);this._pendingActivationItem=void 0;this._pendingActivationTimeout=void 0}},_onArrowKeyup:function(event){if(this.autoselect){this._scheduleActivation(this.focusedItem,this.autoselectDelay)}},_onBlurCapture:function(event){// Cancel a scheduled item activation (if any) when that item is
+// blurred.
+if(event.target===this._pendingActivationItem){this._cancelPendingActivation()}},get _tabContainerScrollSize(){return Math.max(0,this.$.tabsContainer.scrollWidth-this.$.tabsContainer.offsetWidth)},_scroll:function(e,detail){if(!this.scrollable){return}var ddx=detail&&-detail.ddx||0;this._affectScroll(ddx)},_down:function(e){// go one beat async to defeat IronMenuBehavior
+// autorefocus-on-no-selection timeout
+this.async(function(){if(this._defaultFocusAsync){this.cancelAsync(this._defaultFocusAsync);this._defaultFocusAsync=null}},1)},_affectScroll:function(dx){this.$.tabsContainer.scrollLeft+=dx;var scrollLeft=this.$.tabsContainer.scrollLeft;this._leftHidden=0===scrollLeft;this._rightHidden=scrollLeft===this._tabContainerScrollSize},_onLeftScrollButtonDown:function(){this._scrollToLeft();this._holdJob=setInterval(this._scrollToLeft.bind(this),this._holdDelay)},_onRightScrollButtonDown:function(){this._scrollToRight();this._holdJob=setInterval(this._scrollToRight.bind(this),this._holdDelay)},_onScrollButtonUp:function(){clearInterval(this._holdJob);this._holdJob=null},_scrollToLeft:function(){this._affectScroll(-this._step)},_scrollToRight:function(){this._affectScroll(this._step)},_tabChanged:function(tab,old){if(!tab){// Remove the bar without animation.
+this.$.selectionBar.classList.remove("expand");this.$.selectionBar.classList.remove("contract");this._positionBar(0,0);return}var r=this.$.tabsContent.getBoundingClientRect(),w=r.width,tabRect=tab.getBoundingClientRect(),tabOffsetLeft=tabRect.left-r.left;this._pos={width:this._calcPercent(tabRect.width,w),left:this._calcPercent(tabOffsetLeft,w)};if(this.noSlide||null==old){// Position the bar without animation.
+this.$.selectionBar.classList.remove("expand");this.$.selectionBar.classList.remove("contract");this._positionBar(this._pos.width,this._pos.left);return}var oldRect=old.getBoundingClientRect(),oldIndex=this.items.indexOf(old),index=this.items.indexOf(tab),m=5;// bar animation: expand
+this.$.selectionBar.classList.add("expand");var moveRight=oldIndex<index,isRTL=this._isRTL;if(isRTL){moveRight=!moveRight}if(moveRight){this._positionBar(this._calcPercent(tabRect.left+tabRect.width-oldRect.left,w)-m,this._left)}else{this._positionBar(this._calcPercent(oldRect.left+oldRect.width-tabRect.left,w)-m,this._calcPercent(tabOffsetLeft,w)+m)}if(this.scrollable){this._scrollToSelectedIfNeeded(tabRect.width,tabOffsetLeft)}},_scrollToSelectedIfNeeded:function(tabWidth,tabOffsetLeft){var l=tabOffsetLeft-this.$.tabsContainer.scrollLeft;if(0>l){this.$.tabsContainer.scrollLeft+=l}else{l+=tabWidth-this.$.tabsContainer.offsetWidth;if(0<l){this.$.tabsContainer.scrollLeft+=l}}},_calcPercent:function(w,w0){return 100*w/w0},_positionBar:function(width,left){width=width||0;left=left||0;this._width=width;this._left=left;this.transform("translateX("+left+"%) scaleX("+width/100+")",this.$.selectionBar)},_onBarTransitionEnd:function(e){var cl=this.$.selectionBar.classList;// bar animation: expand -> contract
+if(cl.contains("expand")){cl.remove("expand");cl.add("contract");this._positionBar(this._pos.width,this._pos.left);// bar animation done
+}else if(cl.contains("contract")){cl.remove("contract")}}});class MyEvent extends _myApp.PageViewElement{static get properties(){return{userCount:{type:Number},slideIndex:{type:Number},eventsList:{type:Array}}}static get styles(){return[_myApp.sharedStyles,_myApp.css`
+      :host {
+        display: block;
+        --iron-image-width:350px;
+        
+      }
+      h1{
+        font-size:40px;
+      }
+      a{
+        color:rgb(61, 132, 196);
+        text-decoration: underline;
+        cursor:pointer;
+      }
+      paper-card{
+        --paper-card-header-image:{
+          width:350px; height:150px;
+        }
+      }
+      paper-card > .header{
+        
+          width:350px; height:150px;
+        
+      }
+      .rise-dubai-events-card{
+        width: 30%;
+    height: 245px;
+    margin-left:25px;
+    margin-bottom:30px;
+        border:1px solid #e1e1e1;
+        box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.05), 0 3px 6px 3px rgba(0, 0, 0, 0.05), 0 3px 6px -1px rgba(0, 0, 0, 0.05) ;
+      }
+       
+      .rise-dubai-events-card .card-header-img{
+        width:100%; height:150px; object-fit:scale-down;
+      }
+      .rise-dubai-events-card .card-header-img img{
+        object-fit:cover;
+      }
+      .rise-dubai-events-card .card-header-title{
+        font-size:20px; color:var(--app-primary-color); 
+        font-weight:300;
+      }
+      .rise-dubai-events-card .card-secondary-text{
+        font-size:12px;
+        color:var(--app-secondary-color);
+      }
+      
+      .rise-dubai-events-card .card-action{
+        border-top:1px solid #e1e1e1;
+      }
+
+      .dtr-section{
+        width:100%;
+         
+        margin:0 auto;
+      }
+      .dtr-content{
+       
+        columns: 1;
+    -webkit-columns: 1;
+    -moz-columns: 1;
+    -moz-column-gap: 55px;
+    column-gap: 55px;
+    text-align: justify;
+      }
+      .dtr-banner-img{
+        width:100%;
+        height:500px;
+        object-fit: cover;
+        object-position: 5px 15%;
    
-      <diV class="pl-2">
-      <a href="https://www.youtube.com/watch?v=YeTFV2va9uc">
-      <paper-button raised class="button">
-      <iron-icon icon="av:play-circle-outline" class="pr-1"></iron-icon>
-      Watch Video</paper-button>       
-      </a>
-      </div>
-      
-      <h3 style="padding-left: 20px; ">To the Tamil world.</h3>
-                                
-      <p style="color: #848484;font-size: 17px;  padding-left: 20px;padding-right: 20px; "><b>The Rise announces the Thai Pongal Global Summit, to be held from January 15 - Feb 08, 2021</b></p>
-      
-      <p style="color: #848484;font-size: 17px;  padding-left: 20px;padding-right: 20px;">The Summit is woven around three priorities: individual value creation organisational consolidation and collective ventures .Five summit days have been set apart for Buyer -Seller meets that would create value to the participating members. Other value creation points will be Round Tables on varied topics of interest, from artificial intelligence to logistics and infra.</p>
-      
-      <p style="color: #848484;font-size: 17px;  padding-left: 20px;padding-right: 20px;">The organisational consolidation of The Rise would begin with this summit. Chapters, By Laws, Portal and an App will be introduced along with opening of formal membership during the summit .A line of the regional as well as global leadership too will be established and announced.</p>
-      <p style="color: #848484;font-size: 17px;  padding-left: 20px;padding-right: 20px;">co-creating enterprises to achieve shared Profits and Prosperity which we call as collective ventures has been a singular hallmark of The Rise. The Three such enterprises created thus for, namely Virutcham Microfinance limited, Homeland Media limited and Good Food Alliance limited have picked up excellent momentum. New such ventures will be introduced during the momentum.</p>
-      <p style="color: #848484;font-size: 17px;  padding-left: 20px;padding-right: 20px;">Thai Pongal is the only feast of antiquity in the entire world celebrated by people of all faiths and people of non-belief. We live in a time of extreme polarisations. Can The Rise bring ‘economic unity’ among Tamils amidst sharpening social, religious and political divisions? Possibly it can. The Rise a flat ground. Everyone is welcome here.Let's do it for the sake of Mother Tamil.</p>
-      <p style="color: #848484;font-size: 17px;  padding-left: 20px;padding-right: 20px;">Thai Pongal Summit  takes up a special mission to support efforts to establish aTamil Chair at the University of Toronto. Toronto will be the future global City of Tamils.
-</p>
-  
-      </div>
-            `}catch(error){console.log(error)}}stateChanged(state){}}window.customElements.define("my-event",MyEvent)});
+      }
+            .papertab {
+                    width: 100%;
+                    height: 100%;
+            }
+    .myEvents{
+position:relative;
+width: 100%;
+height: 400px;
+            }
+            .thumbnail {
+                    width: 100%;
+                    height: 100%;
+                    background: #f8f8f8;
+                    object-fit: cover;
+                    object-position: top;
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    display: block;
+                }
+                .thumbnail img{
+                  vertical-align: middle; width: 100%;  height: 400px; object-fit:cover;
+                }
+img {vertical-align: middle;}
+
+ 
+.slideshow-container {
+  max-width: 100%;
+  height: 400px;
+  position: relative;
+  margin: auto;
+}
+.event-info{
+  width: 40%; position: absolute;
+  max-height: 360px;
+   top:45%; left:60px;
+  display: block;
+}
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 48%;
+  width: 16px;
+  padding: 16px;
+  margin-top: -22px;
+  color: #f9f9f9;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  background: rgba(0,0,0,0.2);
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+ 
+ 
+
+/* The dots/bullets/indicators */
+.dot {
+  position: relative;
+  bottom: 30px;
+  z-index:99;
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.dotselected{
+  background-color:blue;
+}
+ 
+ 
+      `]}constructor(){super();this.eventsList=[{Name:"Pongal Submit",Days:"15-17",Date:"January, 2022",Venue:"Sydney, Australia",Banner:"images/pongal-summit-banner.jpg"},{Name:"North America Submit",Days:"22-24",Date:"March, 2022",Venue:"Newyork, USA",Banner:"images/north-america-banner.jpg"},{Name:"The Rise Global Submit",Days:"01-04",Date:"April, 2022",Venue:"Ajman, Dubai",Banner:"images/global-summit-banner.jpg"},{Name:"Pongal Submit 2022",Days:"15-17",Date:"January, 2022",Venue:"Sydney, Australia",Banner:"images/pongal-aus-summit-banner.jpg"}];this.moveSlides(0);var timerID=setInterval(()=>{this.autoMoveSlides()},5e3);//clearInterval(timerID); 
+// this.slideIndex = 1;
+// idlePeriod.run(() => {
+//   this.showSlides(this.slideIndex);
+//   this.updateComplete();
+// });
+}updated(changedProps){if(changedProps.has("data")){}}load(){try{this.updateComplete.then(()=>{console.log("Loaded Event")})}catch(error){console.log(error)}}render(){try{return _myApp.html`
+       <div class="layout col-xs-12">
+          <div class="slideshow-container">
+            <div class="myEvents">
+              <div class="thumbnail">
+              <img src="${this.rootPath+this.eventBanner}"  alt="image" />
+              </div>
+              <div class="event-info">
+                  <h1 class="p-1 pb-4 mb-3 m-0 alignleft">${this.eventName}</h1>
+                  <h2 class="p-1 pt-3 m-0 alignleft" style="line-height: 17px;">${this.eventDays}</h2>
+                  <h3 class="p-0 pl-2 m-0 alignleft">${this.eventDate}</h3>
+                  <h4 class="p-0 pl-2 m-0 alignleft">${this.eventVenue}</h4>
+              </div>
+            </div>
+           
+            <a class="prev" @click="${e=>{this.moveSlides(this.currentEvent-1)}}">&#10094;</a>
+            <a class="next" @click="${e=>{this.moveSlides(this.currentEvent+1)}}">&#10095;</a>  
+            <div style="text-align:center">
+              <span class="dot ${this.selectedSlides(0)}" @click="${e=>{this.moveSlides(0)}}"></span> 
+              <span class="dot ${this.selectedSlides(1)}" @click="${e=>{this.moveSlides(1)}}"></span> 
+              <span class="dot ${this.selectedSlides(2)}" @click="${e=>{this.moveSlides(2)}}"></span> 
+              <span class="dot ${this.selectedSlides(3)}" @click="${e=>{this.moveSlides(3)}}"></span> 
+            </div>
+                </div>
+                <div class="dtr-section pt-2 pb-1">
+                  <h2 class="p-2 m-1 primary-text-color alignleft" style=" line-height:18px;">Past Events</h2>
+                  <div class="center-justified col-xs-12" style="border-top: 1px solid #f1f1f1; ">
+                    <div class="col-xs-12 col-sm-6 col-md-12 layout horizontal justified wrap">
+                         
+                        <div class="rise-dubai-events-card m-2">
+                          <div class="card-header-img">
+                              <img src="${this.rootPath+"images/dubai-event.jpg"}"  alt="image" class="card-header-img"/>
+                          </div>
+                          <div class="card-header-title p-2"> Dubai Events
+                          </div>
+                          <!--<div class="card-secondary-text pl-2 pb-1">
+                            Secondary Text
+                          </div>-->
+                          <div class="card-action alignright">
+                          <paper-button class="outline-button" @click="${e=>{window.open("https://www.youtube.com/watch?v=J4FnqL1vQ2g&t=1s")}}">Explore!</paper-button>
+                          </div>
+
+                        </div>
+                        <div class="rise-dubai-events-card m-2">
+                          <div class="card-header-img">
+                              <img src="${this.rootPath+"images/malayasia-event.jpg"}"  alt="image" class="card-header-img"/>
+                          </div>
+                          <div class="card-header-title p-2"> Malaysia Events
+                          </div>
+                          <div class="card-action alignright">
+                          <paper-button class="outline-button" @click="${e=>{window.open("https://www.youtube.com/watch?v=J4FnqL1vQ2g&t=1s")}}">Explore!</paper-button>
+                          </div>
+
+                      </div>
+                      <div class="rise-dubai-events-card m-2">
+                          <div class="card-header-img">
+                              <img src="${this.rootPath+"images/singapore-event.jpg"}"  alt="image" class="card-header-img"/>
+                          </div>
+                          <div class="card-header-title p-2"> Singapore Events
+                          </div>
+                          <div class="card-action alignright">
+                          <paper-button class="outline-button" @click="${e=>{window.open("https://www.youtube.com/watch?v=J4FnqL1vQ2g&t=1s")}}">Explore!</paper-button>
+                          </div>
+
+                      </div>
+                      <div class="rise-dubai-events-card m-2">
+                      <div class="card-header-img">
+                          <img src="${this.rootPath+"images/north-america-event.jpg"}"  alt="image" class="card-header-img"/>
+                      </div>
+                      <div class="card-header-title p-2"> North America Events
+                      </div>
+                      <div class="card-action alignright">
+                      <paper-button class="outline-button" @click="${e=>{window.open("https://youtu.be/J4FnqL1vQ2g")}}">Explore!</paper-button>
+                      </div>
+
+                  </div>
+                    
+                     
+                                    
+                  </div>
+                </div>
+                </div>
+            `}catch(error){console.log(error)}}autoMoveSlides(){var curEvent=this.currentEvent+1;if(!curEvent||0>curEvent||curEvent>=this.eventsList.length){curEvent=0}this.moveSlides(curEvent)}moveSlides(curEvent){if(0<=curEvent&&curEvent<this.eventsList.length){this.currentEvent=curEvent;var selectedEvent=this.eventsList[curEvent];this.eventName=selectedEvent.Name;this.eventDays=selectedEvent.Days;this.eventDate=selectedEvent.Date;this.eventVenue=selectedEvent.Venue;this.eventBanner=selectedEvent.Banner;this.requestUpdate()}}selectedSlides(selectedEvent){return this.currentEvent==selectedEvent?"dotselected":""}stateChanged(state){}}window.customElements.define("my-event",MyEvent)});

@@ -99,84 +99,7 @@ created:function(){if(!document.body.animate){console.warn("No web animations de
 <svg><defs>
 <g id="arrow-drop-down"><path d="M7 10l5 5 5-5z"></path></g>
 </defs></svg>
-</iron-iconset-svg>`;document.head.appendChild($_documentContainer.content);const $_documentContainer$1=document.createElement("template");$_documentContainer$1.setAttribute("style","display: none;");$_documentContainer$1.innerHTML=`<dom-module id="paper-dropdown-menu-shared-styles">
-  <template>
-    <style>
-      :host {
-        display: inline-block;
-        position: relative;
-        text-align: left;
-
-        /* NOTE(cdata): Both values are needed, since some phones require the
-         * value to be \`transparent\`.
-         */
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-        -webkit-tap-highlight-color: transparent;
-
-        --paper-input-container-input: {
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          max-width: 100%;
-          box-sizing: border-box;
-          cursor: pointer;
-        };
-
-        @apply --paper-dropdown-menu;
-      }
-
-      /* paper-dropdown-menu and paper-dropdown-menu-light both delegate focus
-       * to other internal elements which manage focus styling. */
-      :host(:focus) {
-        outline: none;
-      }
-
-      :host(:dir(rtl)) {
-        text-align: right;
-
-        @apply(--paper-dropdown-menu);
-      }
-
-      :host([disabled]) {
-        @apply --paper-dropdown-menu-disabled;
-      }
-
-      :host([noink]) paper-ripple {
-        display: none;
-      }
-
-      :host([no-label-float]) paper-ripple {
-        top: 8px;
-      }
-
-      paper-ripple {
-        top: 12px;
-        left: 0px;
-        bottom: 8px;
-        right: 0px;
-
-        @apply --paper-dropdown-menu-ripple;
-      }
-
-      paper-menu-button {
-        display: block;
-        padding: 0;
-
-        @apply --paper-dropdown-menu-button;
-      }
-
-      paper-input {
-        @apply --paper-dropdown-menu-input;
-      }
-
-      iron-icon {
-        color: var(--disabled-text-color);
-
-        @apply --paper-dropdown-menu-icon;
-      }
-    </style>
-  </template>
-</dom-module>`;document.head.appendChild($_documentContainer$1.content);(0,_myApp.Polymer)({is:"paper-menu-grow-height-animation",behaviors:[NeonAnimationBehavior],configure:function(config){var node=config.node,rect=node.getBoundingClientRect(),height=rect.height;this._effect=new KeyframeEffect(node,[{height:height/2+"px"},{height:height+"px"}],this.timingFromConfig(config));return this._effect}});(0,_myApp.Polymer)({is:"paper-menu-grow-width-animation",behaviors:[NeonAnimationBehavior],configure:function(config){var node=config.node,rect=node.getBoundingClientRect(),width=rect.width;this._effect=new KeyframeEffect(node,[{width:width/2+"px"},{width:width+"px"}],this.timingFromConfig(config));return this._effect}});(0,_myApp.Polymer)({is:"paper-menu-shrink-width-animation",behaviors:[NeonAnimationBehavior],configure:function(config){var node=config.node,rect=node.getBoundingClientRect(),width=rect.width;this._effect=new KeyframeEffect(node,[{width:width+"px"},{width:width-width/20+"px"}],this.timingFromConfig(config));return this._effect}});(0,_myApp.Polymer)({is:"paper-menu-shrink-height-animation",behaviors:[NeonAnimationBehavior],configure:function(config){var node=config.node,rect=node.getBoundingClientRect(),height=rect.height;this.setPrefixedProperty(node,"transformOrigin","0 0");this._effect=new KeyframeEffect(node,[{height:height+"px",transform:"translateY(0)"},{height:height/2+"px",transform:"translateY(-20px)"}],this.timingFromConfig(config));return this._effect}});var config={ANIMATION_CUBIC_BEZIER:"cubic-bezier(.3,.95,.5,1)",MAX_ANIMATION_TIME_MS:400};/**
+</iron-iconset-svg>`;document.head.appendChild($_documentContainer.content);(0,_myApp.Polymer)({is:"paper-menu-grow-height-animation",behaviors:[NeonAnimationBehavior],configure:function(config){var node=config.node,rect=node.getBoundingClientRect(),height=rect.height;this._effect=new KeyframeEffect(node,[{height:height/2+"px"},{height:height+"px"}],this.timingFromConfig(config));return this._effect}});(0,_myApp.Polymer)({is:"paper-menu-grow-width-animation",behaviors:[NeonAnimationBehavior],configure:function(config){var node=config.node,rect=node.getBoundingClientRect(),width=rect.width;this._effect=new KeyframeEffect(node,[{width:width/2+"px"},{width:width+"px"}],this.timingFromConfig(config));return this._effect}});(0,_myApp.Polymer)({is:"paper-menu-shrink-width-animation",behaviors:[NeonAnimationBehavior],configure:function(config){var node=config.node,rect=node.getBoundingClientRect(),width=rect.width;this._effect=new KeyframeEffect(node,[{width:width+"px"},{width:width-width/20+"px"}],this.timingFromConfig(config));return this._effect}});(0,_myApp.Polymer)({is:"paper-menu-shrink-height-animation",behaviors:[NeonAnimationBehavior],configure:function(config){var node=config.node,rect=node.getBoundingClientRect(),height=rect.height;this.setPrefixedProperty(node,"transformOrigin","0 0");this._effect=new KeyframeEffect(node,[{height:height+"px",transform:"translateY(0)"},{height:height/2+"px",transform:"translateY(-20px)"}],this.timingFromConfig(config));return this._effect}});var config={ANIMATION_CUBIC_BEZIER:"cubic-bezier(.3,.95,.5,1)",MAX_ANIMATION_TIME_MS:400};/**
    Material design: [Dropdown
    buttons](https://www.google.com/design/spec/components/buttons.html#buttons-dropdown-buttons)
    
@@ -369,27 +292,110 @@ this._dropdownContent=this.contentElement;this.fire("paper-dropdown-open")}else 
    * dropdown.
    *
    * @param {boolean} disabled True if disabled, otherwise false.
-   */_disabledChanged:function(disabled){_myApp.IronControlState._disabledChanged.apply(this,arguments);if(disabled&&this.opened){this.close()}},__onIronOverlayCanceled:function(event){var uiEvent=event.detail,trigger=this.$.trigger,path=(0,_myApp.dom)(uiEvent).path;if(-1<path.indexOf(trigger)){event.preventDefault()}}});_exports.PaperMenuButton=PaperMenuButton;Object.keys(config).forEach(function(key){PaperMenuButton[key]=config[key]});var paperMenuButton={PaperMenuButton:PaperMenuButton};// with the `Polymer` function, so this is only a cache lookup.
+   */_disabledChanged:function(disabled){_myApp.IronControlState._disabledChanged.apply(this,arguments);if(disabled&&this.opened){this.close()}},__onIronOverlayCanceled:function(event){var uiEvent=event.detail,trigger=this.$.trigger,path=(0,_myApp.dom)(uiEvent).path;if(-1<path.indexOf(trigger)){event.preventDefault()}}});_exports.PaperMenuButton=PaperMenuButton;Object.keys(config).forEach(function(key){PaperMenuButton[key]=config[key]});var paperMenuButton={PaperMenuButton:PaperMenuButton};_exports.$paperMenuButton=paperMenuButton;const $_documentContainer$1=document.createElement("template");$_documentContainer$1.setAttribute("style","display: none;");$_documentContainer$1.innerHTML=`<dom-module id="paper-dropdown-menu-shared-styles">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        text-align: left;
+
+        /* NOTE(cdata): Both values are needed, since some phones require the
+         * value to be \`transparent\`.
+         */
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-tap-highlight-color: transparent;
+
+        --paper-input-container-input: {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          max-width: 100%;
+          box-sizing: border-box;
+          cursor: pointer;
+        };
+
+        @apply --paper-dropdown-menu;
+      }
+
+      /* paper-dropdown-menu and paper-dropdown-menu-light both delegate focus
+       * to other internal elements which manage focus styling. */
+      :host(:focus) {
+        outline: none;
+      }
+
+      :host(:dir(rtl)) {
+        text-align: right;
+
+        @apply(--paper-dropdown-menu);
+      }
+
+      :host([disabled]) {
+        @apply --paper-dropdown-menu-disabled;
+      }
+
+      :host([noink]) paper-ripple {
+        display: none;
+      }
+
+      :host([no-label-float]) paper-ripple {
+        top: 8px;
+      }
+
+      paper-ripple {
+        top: 12px;
+        left: 0px;
+        bottom: 8px;
+        right: 0px;
+
+        @apply --paper-dropdown-menu-ripple;
+      }
+
+      paper-menu-button {
+        display: block;
+        padding: 0;
+
+        @apply --paper-dropdown-menu-button;
+      }
+
+      paper-input {
+        @apply --paper-dropdown-menu-input;
+      }
+
+      iron-icon {
+        color: var(--disabled-text-color);
+
+        @apply --paper-dropdown-menu-icon;
+      }
+    </style>
+  </template>
+</dom-module>`;document.head.appendChild($_documentContainer$1.content);// with the `Polymer` function, so this is only a cache lookup.
 // https://github.com/Polymer/polymer/blob/640bc80ac7177b761d46b2fa9c455c318f2b85c6/lib/legacy/class.js#L533-L534
-_exports.$paperMenuButton=paperMenuButton;const LegacyPolymerElementBase=(0,_myApp.LegacyElementMixin)(HTMLElement);/**
+const LegacyPolymerElementBase=(0,_myApp.LegacyElementMixin)(HTMLElement);/**
                                                                   Material design: [Dropdown
                                                                   menus](https://www.google.com/design/spec/components/buttons.html#buttons-dropdown-buttons)
                                                                   
-                                                                  `paper-dropdown-menu` is similar to a native browser select element.
-                                                                  `paper-dropdown-menu` works with selectable content. The currently selected
-                                                                  item is displayed in the control. If no item is selected, the `label` is
-                                                                  displayed instead.
+                                                                  This is a faster, lighter version of `paper-dropdown-menu`, that does not
+                                                                  use a `<paper-input>` internally. Use this element if you're concerned about
+                                                                  the performance of this element, i.e., if you plan on using many dropdowns on
+                                                                  the same page. Note that this element has a slightly different styling API
+                                                                  than `paper-dropdown-menu`.
+                                                                  
+                                                                  `paper-dropdown-menu-light` is similar to a native browser select element.
+                                                                  `paper-dropdown-menu-light` works with selectable content. The currently
+                                                                  selected item is displayed in the control. If no item is selected, the `label`
+                                                                  is displayed instead.
                                                                   
                                                                   Example:
                                                                   
-                                                                      <paper-dropdown-menu label="Your favourite pastry">
+                                                                      <paper-dropdown-menu-light label="Your favourite pastry">
                                                                         <paper-listbox slot="dropdown-content">
                                                                           <paper-item>Croissant</paper-item>
                                                                           <paper-item>Donut</paper-item>
                                                                           <paper-item>Financier</paper-item>
                                                                           <paper-item>Madeleine</paper-item>
                                                                         </paper-listbox>
-                                                                      </paper-dropdown-menu>
+                                                                      </paper-dropdown-menu-light>
                                                                   
                                                                   This example renders a dropdown menu with 4 options.
                                                                   
@@ -417,37 +423,225 @@ _exports.$paperMenuButton=paperMenuButton;const LegacyPolymerElementBase=(0,_myA
                                                                   `--paper-dropdown-menu-disabled` | A mixin that is applied to the element host when disabled | `{}`
                                                                   `--paper-dropdown-menu-ripple` | A mixin that is applied to the internal ripple | `{}`
                                                                   `--paper-dropdown-menu-button` | A mixin that is applied to the internal menu button | `{}`
-                                                                  `--paper-dropdown-menu-input` | A mixin that is applied to the internal paper input | `{}`
                                                                   `--paper-dropdown-menu-icon` | A mixin that is applied to the internal icon | `{}`
+                                                                  `--paper-dropdown-menu-disabled-opacity` | The opacity of the dropdown when disabled  | `0.33`
+                                                                  `--paper-dropdown-menu-color` | The color of the input/label/underline when the dropdown is unfocused | `--primary-text-color`
+                                                                  `--paper-dropdown-menu-focus-color` | The color of the label/underline when the dropdown is focused  | `--primary-color`
+                                                                  `--paper-dropdown-error-color` | The color of the label/underline when the dropdown is invalid  | `--error-color`
+                                                                  `--paper-dropdown-menu-label` | Mixin applied to the label | `{}`
+                                                                  `--paper-dropdown-menu-input` | Mixin applied to the input | `{}`
+                                                                  `--paper-dropdown-menu-underline-focus` | Mixin applied to the focus underline | `{}`
                                                                   
-                                                                  You can also use any of the `paper-input-container` and `paper-menu-button`
-                                                                  style mixins and custom properties to style the internal input and menu button
-                                                                  respectively.
+                                                                  Note that in this element, the underline is just the bottom border of the
+                                                                  "input". To style it:
                                                                   
-                                                                  @element paper-dropdown-menu
+                                                                      <style is=custom-style>
+                                                                        paper-dropdown-menu-light.custom {
+                                                                          --paper-dropdown-menu-input: {
+                                                                            border-bottom: 2px dashed lavender;
+                                                                          };
+                                                                      </style>
+                                                                  
+                                                                  @element paper-dropdown-menu-light
                                                                   @demo demo/index.html
                                                                   */(0,_myApp.Polymer)({/** @override */_template:_myApp.html$1`
-    <style include="paper-dropdown-menu-shared-styles"></style>
+    <style include="paper-dropdown-menu-shared-styles">
+      :host {
+        width: 200px;  /* Default size of an <input> */
+      }
 
-    <paper-menu-button id="menuButton" vertical-align="[[verticalAlign]]" horizontal-align="[[horizontalAlign]]" dynamic-align="[[dynamicAlign]]" vertical-offset="[[_computeMenuVerticalOffset(noLabelFloat, verticalOffset)]]" disabled="[[disabled]]" no-animations="[[noAnimations]]" on-iron-select="_onIronSelect" on-iron-deselect="_onIronDeselect" opened="{{opened}}" close-on-activate allow-outside-scroll="[[allowOutsideScroll]]" restore-focus-on-close="[[restoreFocusOnClose]]">
+      /**
+       * All of these styles below are for styling the fake-input display
+       */
+      [slot="dropdown-trigger"] {
+        box-sizing: border-box;
+        position: relative;
+        width: 100%;
+        padding: 16px 0 8px 0;
+      }
+
+      [slot="dropdown-trigger"]:focus {
+        outline: none;
+      }
+
+      :host([disabled]) [slot="dropdown-trigger"] {
+        pointer-events: none;
+        opacity: var(--paper-dropdown-menu-disabled-opacity, 0.33);
+      }
+
+      :host([no-label-float]) [slot="dropdown-trigger"] {
+        padding-top: 8px;   /* If there's no label, we need less space up top. */
+      }
+
+      #input {
+        @apply --paper-font-subhead;
+        @apply --paper-font-common-nowrap;
+        line-height: 1.5;
+        border-bottom: 1px solid var(--paper-dropdown-menu-color, var(--secondary-text-color));
+        color: var(--paper-dropdown-menu-color, var(--primary-text-color));
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px 20px 0 0;   /* Right padding so that text doesn't overlap the icon */
+        outline: none;
+        @apply --paper-dropdown-menu-input;
+      }
+
+      #input:dir(rtl) {
+        padding-right: 0px;
+        padding-left: 20px;
+      }
+
+      :host([disabled]) #input {
+        border-bottom: 1px dashed var(--paper-dropdown-menu-color, var(--secondary-text-color));
+      }
+
+      :host([invalid]) #input {
+        border-bottom: 2px solid var(--paper-dropdown-error-color, var(--error-color));
+      }
+
+      :host([no-label-float]) #input {
+        padding-top: 0;   /* If there's no label, we need less space up top. */
+      }
+
+      label {
+        @apply --paper-font-subhead;
+        @apply --paper-font-common-nowrap;
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        /**
+         * The container has a 16px top padding, and there's 12px of padding
+         * between the input and the label (from the input's padding-top)
+         */
+        top: 28px;
+        box-sizing: border-box;
+        width: 100%;
+        padding-right: 20px;    /* Right padding so that text doesn't overlap the icon */
+        text-align: left;
+        transition-duration: .2s;
+        transition-timing-function: cubic-bezier(.4,0,.2,1);
+        color: var(--paper-dropdown-menu-color, var(--secondary-text-color));
+        @apply --paper-dropdown-menu-label;
+      }
+
+      label:dir(rtl) {
+        padding-right: 0px;
+        padding-left: 20px;
+        text-align: right;
+      }
+
+      :host([no-label-float]) label {
+        top: 8px;
+        /* Since the label doesn't need to float, remove the animation duration
+        which slows down visibility changes (i.e. when a selection is made) */
+        transition-duration: 0s;
+      }
+
+      label.label-is-floating {
+        font-size: 12px;
+        top: 8px;
+      }
+
+      label.label-is-hidden {
+        visibility: hidden;
+      }
+
+      :host([focused]) label.label-is-floating {
+        color: var(--paper-dropdown-menu-focus-color, var(--primary-color));
+      }
+
+      :host([invalid]) label.label-is-floating {
+        color: var(--paper-dropdown-error-color, var(--error-color));
+      }
+
+      /**
+       * Sets up the focused underline. It's initially hidden, and becomes
+       * visible when it's focused.
+       */
+      label:after {
+        background-color: var(--paper-dropdown-menu-focus-color, var(--primary-color));
+        bottom: 7px;    /* The container has an 8px bottom padding */
+        content: '';
+        height: 2px;
+        left: 45%;
+        position: absolute;
+        transition-duration: .2s;
+        transition-timing-function: cubic-bezier(.4,0,.2,1);
+        visibility: hidden;
+        width: 8px;
+        z-index: 10;
+        @apply --paper-dropdown-menu-underline-focus;
+      }
+
+      :host([invalid]) label:after {
+        background-color: var(--paper-dropdown-error-color, var(--error-color));
+      }
+
+      :host([no-label-float]) label:after {
+        bottom: 7px;    /* The container has a 8px bottom padding */
+      }
+
+      :host([focused]:not([disabled])) label:after {
+        left: 0;
+        visibility: visible;
+        width: 100%;
+      }
+
+      iron-icon {
+        position: absolute;
+        right: 0px;
+        bottom: 8px;    /* The container has an 8px bottom padding */
+        @apply --paper-font-subhead;
+        color: var(--disabled-text-color);
+        @apply --paper-dropdown-menu-icon;
+      }
+
+      iron-icon:dir(rtl) {
+        left: 0;
+        right: auto;
+      }
+
+      :host([no-label-float]) iron-icon {
+        margin-top: 0px;
+      }
+
+      .error {
+        display: inline-block;
+        visibility: hidden;
+        color: var(--paper-dropdown-error-color, var(--error-color));
+        @apply --paper-font-caption;
+        position: absolute;
+        left:0;
+        right:0;
+        bottom: -12px;
+      }
+
+      :host([invalid]) .error {
+        visibility: visible;
+      }
+    </style>
+
+    <paper-menu-button id="menuButton" vertical-align="[[verticalAlign]]" horizontal-align="[[horizontalAlign]]" vertical-offset="[[_computeMenuVerticalOffset(noLabelFloat, verticalOffset)]]" disabled="[[disabled]]" no-animations="[[noAnimations]]" on-iron-select="_onIronSelect" on-iron-deselect="_onIronDeselect" opened="{{opened}}" close-on-activate allow-outside-scroll="[[allowOutsideScroll]]">
       <!-- support hybrid mode: user might be using paper-menu-button 1.x which distributes via <content> -->
-      <div class="dropdown-trigger" slot="dropdown-trigger">
-        <paper-ripple></paper-ripple>
-        <!-- paper-input has type="text" for a11y, do not remove -->
-        <paper-input id="input" type="text" invalid="[[invalid]]" readonly disabled="[[disabled]]" value="[[value]]" placeholder="[[placeholder]]" error-message="[[errorMessage]]" always-float-label="[[alwaysFloatLabel]]" no-label-float="[[noLabelFloat]]" label="[[label]]" input-role="button" input-aria-haspopup="listbox" autocomplete="off">
-          <!-- support hybrid mode: user might be using paper-input 1.x which distributes via <content> -->
-          <iron-icon icon="paper-dropdown-menu:arrow-drop-down" suffix slot="suffix"></iron-icon>
-        </paper-input>
+      <div id="dropdown-trigger" class="dropdown-trigger" slot="dropdown-trigger" role="button" tabindex="0" aria-haspopup="listbox">
+        <label class$="[[_computeLabelClass(noLabelFloat,alwaysFloatLabel,hasContent)]]">
+          [[label]]
+        </label>
+        <div id="input" tabindex="-1">&nbsp;</div>
+        <iron-icon icon="paper-dropdown-menu:arrow-drop-down"></iron-icon>
+        <span class="error">[[errorMessage]]</span>
       </div>
       <slot id="content" name="dropdown-content" slot="dropdown-content"></slot>
     </paper-menu-button>
-`,is:"paper-dropdown-menu",behaviors:[_myApp.IronButtonState,_myApp.IronControlState,_myApp.IronFormElementBehavior,_myApp.IronValidatableBehavior],properties:{/**
+`,is:"paper-dropdown-menu-light",behaviors:[_myApp.IronButtonState,_myApp.IronControlState,_myApp.PaperRippleBehavior,_myApp.IronFormElementBehavior,_myApp.IronValidatableBehavior],properties:{/**
      * The derived "label" of the currently selected item. This value
      * is the `label` property on the selected item if set, or else the
      * trimmed text content of the selected item.
      */selectedItemLabel:{type:String,notify:!0,readOnly:!0},/**
      * The last selected item. An item is selected if the dropdown menu has
-     * a child with slot `dropdown-content`, and that child triggers an
+     * a child with class `dropdown-content`, and that child triggers an
      * `iron-select` event with the selected `item` in the `detail`.
      *
      * @type {?Object}
@@ -455,13 +649,11 @@ _exports.$paperMenuButton=paperMenuButton;const LegacyPolymerElementBase=(0,_myA
      * The value for this element that will be used when submitting in
      * a form. It reflects the value of `selectedItemLabel`. If set directly,
      * it will not update the `selectedItemLabel` value.
-     */value:{type:String,notify:!0},/**
+     */value:{type:String,notify:!0,observer:"_valueChanged"},/**
      * The label for the dropdown.
      */label:{type:String},/**
      * The placeholder for the dropdown.
      */placeholder:{type:String},/**
-     * The error message to display when invalid.
-     */errorMessage:{type:String},/**
      * True if the dropdown is open. Otherwise, false.
      */opened:{type:Boolean,notify:!0,value:!1,observer:"_openedChanged"},/**
      * By default, the dropdown will constrain scrolling on the page
@@ -486,14 +678,7 @@ _exports.$paperMenuButton=paperMenuButton;const LegacyPolymerElementBase=(0,_myA
      */verticalAlign:{type:String,value:"top"},/**
      * Overrides the vertical offset computed in
      * _computeMenuVerticalOffset.
-     */verticalOffset:Number,/**
-     * If true, the `horizontalAlign` and `verticalAlign` properties will
-     * be considered preferences instead of strict requirements when
-     * positioning the dropdown and may be changed if doing so reduces
-     * the area of the dropdown falling outside of `fitInto`.
-     */dynamicAlign:{type:Boolean},/**
-     * Whether focus should be restored to the dropdown when the menu closes.
-     */restoreFocusOnClose:{type:Boolean,value:!0}},listeners:{tap:"_onTap"},/**
+     */verticalOffset:Number,hasContent:{type:Boolean,readOnly:!0}},listeners:{tap:"_onTap"},/**
    * @type {!Object}
    */keyBindings:{"up down":"open",esc:"close"},observers:["_selectedItemChanged(selectedItem)"],/**
    * Override `_attachDom` so that we can pass `delegatesFocus`. The overridden
@@ -507,7 +692,7 @@ _exports.$paperMenuButton=paperMenuButton;const LegacyPolymerElementBase=(0,_myA
 // element isn't focusable in those situations. To work around this, the
 // element in the shadow root that this element intends to delegate focus
 // to is manually focused instead.
-this.$.input._focusableElement.focus()},/** @override */attached:function(){// NOTE(cdata): Due to timing, a preselected value in a `IronSelectable`
+this.$["dropdown-trigger"].focus()},/** @override */attached:function(){// NOTE(cdata): Due to timing, a preselected value in a `IronSelectable`
 // child will cause an `iron-select` event to fire while the element is
 // still in a `DocumentFragment`. This has the effect of causing
 // handlers not to fire. So, we double check this value on attached:
@@ -553,7 +738,8 @@ return noLabelFloat?-4:8},/**
    * @param {*=} _value Ignored.
    * @return {boolean} true if `required` is false, or if `required` is true
    * and the element has a valid selection.
-   */_getValidity:function(_value){return this.disabled||!this.required||this.required&&!!this.value},_openedChanged:function(){var openState=this.opened?"true":"false",e=this.contentElement;if(e){e.setAttribute("aria-expanded",openState)}}});class MyRegister extends _myApp.PageViewElement{static get properties(){return{userCount:{type:Number},opened:{type:Boolean,value:!1}}}static get styles(){return[_myApp.sharedStyles,_myApp.css`
+   */_getValidity:function(_value){return this.disabled||!this.required||this.required&&!!this.value},_openedChanged:function(){var openState=this.opened?"true":"false",e=this.contentElement;if(e){e.setAttribute("aria-expanded",openState)}},_computeLabelClass:function(noLabelFloat,alwaysFloatLabel,hasContent){var cls="";if(!0===noLabelFloat){return hasContent?"label-is-hidden":""}if(hasContent||!0===alwaysFloatLabel){cls+=" label-is-floating"}return cls},_valueChanged:function(){// Only update if it's actually different.
+if(this.$.input&&this.$.input.textContent!==this.value){this.$.input.textContent=this.value}this._setHasContent(!!this.value)}});class MyRegister extends _myApp.PageViewElement{static get properties(){return{userCount:{type:Number},opened:{type:Boolean,value:!1},userRegistration:{type:Object,value:{}}}}static get styles(){return[_myApp.sharedStyles,_myApp.css`
         :host {
           display: block;
         }
@@ -562,18 +748,17 @@ return noLabelFloat?-4:8},/**
           margin:0 auto;
           max-width:80%;
         }
-        .width{
-          width:90%;
-        }
-        paper-input{
-          --paper-input-container-label:{
-            color:#3d84c4;
-          }
+        
+       
+        label{
+          color:var(--app-primary-color);
         }
         .form-section{
-          width:50%; margin:0 auto;
+          width:70%; margin:0 auto;
         } 
-
+        .row{
+          position:relative; width:33.33%
+        }
         .login-bg{          
           position: absolute;
           /* top: 100%;
@@ -581,105 +766,368 @@ return noLabelFloat?-4:8},/**
           right: 0;
           width: 50%;
         }
+        paper-checkbox{
+          padding-bottom:10px;
+         word-wrap: break-word;
+         position:relative;
+         
+         --paper-checkbox-vertical-align:top;
+            --paper-checkbox-size:20px;
+           
+        }
+
+        .required{
+            color:red;            
+        }
 
         /* Wide layout: when the viewport width is bigger than 460px, layout
         changes to a wide layout */
-       
-        @media screen and (min-width: 768px) {
-          .width{
-            width:40%;
-          }
+        @media screen and (min-width: 1025px) {
           .form-section{
-            width:50%; margin:0 auto;
+            width:60%; margin:0 auto;
           } 
         }
-        @media screen and (max-width: 767px) {
-          .width{
-            width:40%;
-          }
+
+        @media screen and (min-width: 769px) {
+        
           .form-section{
             width:90%; margin:0 auto;
           } 
         }
+        @media screen and (max-width: 1023px) {
+        
+          .row{
+            width:49%; 
+          } 
+        }
+        @media screen and (max-width: 767px) {
+        
+          .form-section{
+            width:90%; margin:0 auto;
+          } 
+          .row{
+            width:99%; 
+          } 
+        }
        
-      `]}constructor(){super()}updated(changedProps){if(changedProps.has("data")){}}load(){try{this.updateComplete.then(()=>{console.log("Loaded Register")})}catch(error){console.log(error)}}render(){try{return _myApp.html`
-      <div>
-        <img src=${this.rootPath+"images/login-bg.svg"} class="login-bg">
-      </div>
+      `]}constructor(){super();this.userRegistration={}}updated(changedProps){if(changedProps.has("data")){}}load(){try{this.clear();this.updateComplete.then(()=>{console.log("Loaded Register")})}catch(error){console.log(error)}}render(){try{return _myApp.html`
+      <!--<div>
+          <img src=${this.rootPath+"images/login-bg.svg"} class="login-bg">
+      </div>-->
     <div class="m-2 pb-4">
       <div class="col-xs-12">
         <div class="p-1">
           <div class="layout">
-            <h2>Registration</h2>
             <div class="form-section">
-              <div class="col-xs-12">
-                <paper-input label="Name" class="col-xs-11 pb-2" always-float-label></paper-input>
+                <h1>The RISE : Registration of Interest - Customer Details Form</h1>
+                <div>எழுமின் உலகுதழுவியதோர்  தமிழ்த் தோழமை. எல்லோரும் வளரவேண்டும், வெற்றிபெறவேண்டும் என ஆசைப்படும் நட்புக் குடும்பம் இந்த நட்பு நிலத்திற்கும் உங்களை வரவேற்கிறோம்.</div>
+                <div class="col-xs-10 pt-2 pb-2"><span class="required">* Required</span></div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">Email Address <span class="required">*</span></label>
+                  <paper-input label="Your email" class="col-xs-12 col-md-5 pb-2" no-label-float required error-message="This is a required question"
+                    type="email" .value=${this.userRegistration.user_registered_email}
+                    @blur=${e=>{this.userRegistration.user_registered_email=e.currentTarget.value;e.currentTarget.invalid=!1}} >
+                  </paper-input>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">Password <span class="required">*</span></label>
+                  <paper-input  id="txtPassword" label="Your Password" class="col-xs-12 col-md-5 pb-2" no-label-float required error-message="This is a required question"
+                  type="password" .value=${this.userRegistration.user_password}
+                  @blur=${e=>{this.userRegistration.user_password=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">Confirm Password <span class="required">*</span></label>
+                  <paper-input id="txtConfirmPassword" label="Confirm Password" class="col-xs-12 col-md-5 pb-2" no-label-float required error-message="Password and confirm password should be match"
+                  type="password" .value=${this.userRegistration.confirm_user_password}
+                  @blur=${e=>{this.userRegistration.confirm_user_password=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">Full Name ( as in Passport or Emirates ID) <span class="required">*</span></label>
+                  <paper-input label="Your Name" class="col-xs-12 col-md-5 pb-2" no-label-float required error-message="This is a required question"
+                              .value=${this.userRegistration.user_fullname}
+                              @blur=${e=>{this.userRegistration.user_fullname=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">Residence of Emirate in UAE <span class="required">*</span></label>
+                  <div>
+                      <paper-dropdown-menu-light label="Choose" class="pb-2" no-label-float vertical-offset="40" >
+                        <paper-listbox slot="dropdown-content" class="dropdown-content" .selected=${this.userRegistration.residenceofemiratesinuae} 
+                        @selected-changed=${e=>{this.userRegistration.residenceofemiratesinuae=e.detail.value;e.currentTarget.invalid=!1}} >
+                          <paper-item>Abu Dhabi</paper-item>
+                          <paper-item>Dubai</paper-item>
+                          <paper-item>Sharjah</paper-item>
+                          <paper-item>Umm Al Quwain</paper-item>
+                          <paper-item>Ras Al Khaimah</paper-item>
+                          <paper-item>Ajman</paper-item>
+                          <paper-item>Fujairah</paper-item>
+                        </paper-listbox>
+                      </paper-dropdown-menu-light>
+                  </div>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">Nationality <span class="required">*</span></label>
+                  <paper-input label="Your answer" class="col-xs-12 col-md-5 pb-2" no-label-float required error-message="This is a required question"
+                              .value=${this.userRegistration.nationality}
+                              @blur=${e=>{this.userRegistration.nationality=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">Blood group</label>
+                  <paper-input label="Your answer" class="col-xs-12 col-md-5 pb-2" no-label-float 
+                  .value=${this.userRegistration.user_bloodgroup}
+                  @blur=${e=>{this.userRegistration.user_bloodgroup=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">UAE Contact Number - Mobile <span class="required">*</span></label>
+                  <paper-input label="Your answer" class="col-xs-12 col-md-5 pb-2" no-label-float required error-message="This is a required question"
+                              .value=${this.userRegistration.mobilenumber}
+                              @blur=${e=>{this.userRegistration.mobilenumber=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">UAE Contact Number - Office (if any)</label>
+                  <paper-input label="Your answer" class="col-xs-12 col-md-5 pb-2" no-label-float
+                              .value=${this.userRegistration.office_contactnumber}
+                              @blur=${e=>{this.userRegistration.office_contactnumber=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">Whatsapp Number (if different from Contact Mobile #)</label>
+                  <paper-input label="Your answer" class="col-xs-12 col-md-5 pb-2" no-label-float
+                              .value=${this.userRegistration.whatsappnumber}
+                              @blur=${e=>{this.userRegistration.whatsappnumber=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-12 pb-2">Business/Organization/Institution Name <span class="required">*</span></label>
+                  <paper-input label="Your answer" class="col-xs-12 col-md-5 pb-2" no-label-float required error-message="This is a required question"
+                              .value=${this.userRegistration.businessname}
+                              @blur=${e=>{this.userRegistration.businessname=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                </div>
+                <div class="col-xs-12 pb-1">
+                  <label class="col-xs-11 pb-3">Your interest/expectation from The RISE Events, Dubai ? <span class="required">*</span></label>
+                  <div class="col-xs-12 layout horizontal wrap">
+                    <div class="row">
+                      <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_networking}
+                      @change=${e=>{this.userRegistration.cb_networking=e.currentTarget.checked;e.currentTarget.invalid=!1}} >Networking</paper-checkbox>
+                    </div>
+                    <div class="row">
+                      <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_businesspromdev}
+                      @change=${e=>{this.userRegistration.cb_businesspromdev=e.currentTarget.checked;e.currentTarget.invalid=!1}} >Business Promotion / Development</paper-checkbox>
+                    </div>
+                    <div class="row">
+                      <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_investopportunities}
+                      @change=${e=>{this.userRegistration.cb_investopportunities=e.currentTarget.checked;e.currentTarget.invalid=!1}} >Investment Opportunities</paper-checkbox>
+                    </div>
+                    <div class="row">
+                      <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_knowlsharingdev}
+                      @change=${e=>{this.userRegistration.cb_knowlsharingdev=e.currentTarget.checked;e.currentTarget.invalid=!1}} >Knowledge Sharing/development</paper-checkbox>
+                    </div>
+                    <div class="row">
+                      <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_mentorship}
+                      @change=${e=>{this.userRegistration.cb_mentorship=e.currentTarget.checked;e.currentTarget.invalid=!1}} >Mentorship</paper-checkbox>
+                    </div>
+                    <div class="row">
+                      <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_communityservice}
+                      @change=${e=>{this.userRegistration.cb_communityservice=e.currentTarget.checked;e.currentTarget.invalid=!1}} >Community Service</paper-checkbox>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 hori-flex">
+                          <paper-checkbox class="col-xs-3 pb-2" style="width:90px;"
+                                          .checked=${this.userRegistration.cb_others_theriseevents}
+                                          @change=${e=>{this.userRegistration.cb_others_theriseevents=e.currentTarget.checked;e.currentTarget.invalid=!1}} >Other:</paper-checkbox>
+                          <paper-input class="col-xs-8 col-md-4 col-lg-3 pb-2" no-label-float
+                                  .value=${this.userRegistration.others_theriseevents}
+                                  @blur=${e=>{this.userRegistration.others_theriseevents=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                      </div>
+                    </div>
+                 </div>
+                  
+                </div>
+              <div class="col-xs-12 pb-1">
+                <label class="col-xs-11 pb-3">Your interested Business Verticals <span class="required">*</span></label>
+                <div class="col-xs-12 layout horizontal wrap">
+                    <div class="row">
+                      <paper-checkbox class="col-xs-12 pb-3" .checked=${this.userRegistration.cb_itandites}
+                      @change=${e=>{this.userRegistration.cb_itandites=e.currentTarget.checked}}>IT & ITES</paper-checkbox>
+                    </div>
+                    <div class="row">
+                        <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_tradingretail}
+                        @change=${e=>{this.userRegistration.cb_tradingretail=e.currentTarget.checked}}>Trading & Retail</paper-checkbox>
+                    </div>
+                    <div class="row"> 
+                      <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_constgeneralcontracting}
+                      @change=${e=>{this.userRegistration.cb_constgeneralcontracting=e.currentTarget.checked}}>Construction & General Contracting</paper-checkbox>
+                    </div>
+                    <div class="row"> 
+                        <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_reestpropdev_management}
+                        @change=${e=>{this.userRegistration.cb_reestpropdev_management=e.currentTarget.checked}}>Real Estate / Property Development & Management</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                        <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_ownersass_management}
+                        @change=${e=>{this.userRegistration.cb_ownersass_management=e.currentTarget.checked}}>Owners Association Management</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                        <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_facilitiesmanagement}
+                        @change=${e=>{this.userRegistration.cb_facilitiesmanagement=e.currentTarget.checked}}>Facilities Management</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                        <paper-checkbox class="col-xs-12  pb-2" .checked=${this.userRegistration.cb_realestatebrokerage}
+                        @change=${e=>{this.userRegistration.cb_realestatebrokerage=e.currentTarget.checked}}>Real Estate Brokerage<br/> (Selling/Buying/Leasing)</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                    <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_mediaadvert_eventmanagement}
+                    @change=${e=>{this.userRegistration.cb_mediaadvert_eventmanagement=e.currentTarget.checked}}>Media Advertisement / Event Management</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                        <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_healthcarepharma}
+                        @change=${e=>{this.userRegistration.cb_healthcarepharma=e.currentTarget.checked}}>Healthcare & Pharma</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                          <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_supplychainandlogistics}
+                          @change=${e=>{this.userRegistration.cb_supplychainandlogistics=e.currentTarget.checked}}>Supply Chain and Logistics</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                        <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_manufacturing}
+                        @change=${e=>{this.userRegistration.cb_manufacturing=e.currentTarget.checked}}>Manufacturing</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                        <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_energy_oil_gas_renewables}
+                        @change=${e=>{this.userRegistration.cb_energy_oil_gas_renewables=e.currentTarget.checked}}>Energy (Oil & Gas, Renewables)</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                        <paper-checkbox class="col-xs-12 col-md-4 pb-2" .checked=${this.userRegistration.cb_mining}
+                        @change=${e=>{this.userRegistration.cb_mining=e.currentTarget.checked}}>Mining</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                          <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_legalauditingtaxation}
+                      @change=${e=>{this.userRegistration.cb_legalauditingtaxation=e.currentTarget.checked}}>Legal / Auditing / Taxation</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                          <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_financialservices}
+                      @change=${e=>{this.userRegistration.cb_financialservices=e.currentTarget.checked}}>Financial services</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                        <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_educationtrainings}
+                    @change=${e=>{this.userRegistration.cb_educationtrainings=e.currentTarget.checked}}>Education / Trainings</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                        <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_hrmanpowerservices}
+                        @change=${e=>{this.userRegistration.cb_hrmanpowerservices=e.currentTarget.checked}}>HR / Manpower services</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                        <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_designenggservices}
+                          @change=${e=>{this.userRegistration.cb_designenggservices=e.currentTarget.checked}}>Design / Engineering Services</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                      <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_hospitality}
+                        @change=${e=>{this.userRegistration.cb_hospitality=e.currentTarget.checked}}>Hospitality</paper-checkbox>
+                    </div>
+                    <div class="row">  
+                      <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_foodandberverages}
+                        @change=${e=>{this.userRegistration.cb_foodandberverages=e.currentTarget.checked}}>Food and Berverages</paper-checkbox>
+                    </div>
+                     
+                      <div class="col-xs-12">
+                          <paper-checkbox class="col-xs-3 pb-2" .checked=${this.userRegistration.cb_other_businessverticals} 
+                          @change=${e=>{this.userRegistration.cb_other_businessverticals=e.currentTarget.checked}} style="width:90px;">Other:</paper-checkbox>
+                          <paper-input class="col-xs-8 col-md-4 col-lg-3 pb-2" no-label-float .value=${this.userRegistration.other_businessverticals}
+                          @blur=${e=>{this.userRegistration.other_businessverticals=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                      </div>
+                     
+                   
+                </div>
+                
+                
               </div>
               <div class="col-xs-12">
-                <paper-input label="Phone Number" class="col-xs-11 pb-2" always-float-label></paper-input>
-              </div>
-              <div class="col-xs-12">
-                <paper-input label="Alternate Phone Number" class="col-xs-11 pb-2" always-float-label></paper-input>
-              </div>
-              <div class="col-xs-12">
-                <paper-input label="Email ID" class="col-xs-11 pb-2" always-float-label></paper-input>
-              </div>
-              <div class="col-xs-12">
-                <paper-input label="Business Name" class="col-xs-11 pb-2" always-float-label></paper-input>
-              </div>
-              <div class="col-xs-12">
-                <paper-input label="Business Address" class="col-xs-11 pb-2" always-float-label></paper-input>
-              </div>
-              <div class="col-xs-12">
-                <paper-input label="Business City" class="col-xs-11 pb-2" always-float-label></paper-input>
-              </div>
-              <div class="col-xs-12">
-                <paper-input label="Business Country" class="col-xs-11 pb-2" always-float-label></paper-input>
-              </div>
-              <div class="col-xs-12">
-                <label id="label1">Are You Buyer or Seller:</label>
-              </div>
-              <div class="col-xs-12 pb-2">
-                <paper-radio-group>
-                  <paper-radio-button name="Buyer">Buyer</paper-radio-button>
-                  <paper-radio-button name="Seller">Seller</paper-radio-button>
+                <label class="col-xs-11 pb-1">Choose the one whichever best suites you <span class="required">*</span></label>
+                <paper-radio-group required error-message="This is a required question" 
+                .selected=${this.userRegistration.rb_bestsuites}
+                @selected-changed=${e=>{this.userRegistration.rb_bestsuites=e.detail.value}}>
+                    <paper-radio-button name="1" class="col-xs-12 pb-2" >I am an Entrepreneur / Businessperson</paper-radio-button>
+                    <paper-radio-button name="2" class="col-xs-12 pb-2" >I am a Professional. I aspire to become an Entrepreneur / Businessperson</paper-radio-button>
+                    <paper-radio-button name="3" class="col-xs-12 pb-2" >I am a Professional in business development. I'm looking to promote business for my company</paper-radio-button>
+                    <paper-radio-button name="4" class="col-xs-12 pb-2" >I am a Professional. I can provide business leads to others</paper-radio-button>
+                    <paper-radio-button name="5" class="col-xs-12 pb-2" >I am a Student</paper-radio-button>
+                    <paper-radio-button name="6" class="col-xs-12 pb-2" >I am a retired person. I would like to be a mentor</paper-radio-button>
+                    <paper-radio-button name="7" class="col-xs-3 pb-2" style="width:90px;">Other:</paper-radio-button>
+                    <paper-input class="col-xs-8 col-md-4 col-lg-3 pb-2" no-label-float .value=${this.userRegistration.other_bestsuites}
+                    @blur=${e=>{this.userRegistration.other_bestsuites=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
                 </paper-radio-group>
-              </div>           
-              <div class="col-xs-12">
-                <paper-dropdown-menu label="Business Category" class="pb-2" always-float-label vertical-offset="60">
-                  <paper-listbox slot="dropdown-content" class="dropdown-content" >
-                    <paper-item>Textiles</paper-item>
-                    <paper-item>Industrial</paper-item>
-                    <paper-item>Mining Industry</paper-item>
-                    <paper-item>Others</paper-item>
-                  </paper-listbox>
-                </paper-dropdown-menu>
-              </div>            
-              <div class="col-xs-12">
-                <paper-dropdown-menu label="Type of Membership" class="pb-2" always-float-label vertical-offset="60">
-                  <paper-listbox slot="dropdown-content" class="dropdown-content" selected="1">
-                    <paper-item>Free</paper-item>
-                    <paper-item>Silver</paper-item>
-                    <paper-item>Gold</paper-item>
-                  </paper-listbox>
-                </paper-dropdown-menu>
               </div>
               <div class="col-xs-12">
-                <paper-input label="Registration Amount" class="col-xs-11 pb-2" always-float-label disabled value="500"></paper-input>  
+                <label class="col-xs-11 pb-3">I am interested to participate in The Rise events programs/activities</label>
+                <div class="col-xs-12 layout horizontal wrap">
+                <div class="row">  
+                <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_yearlongevents}
+                @change=${e=>{this.userRegistration.cb_yearlongevents=e.currentTarget.checked}} >Year long events / activities</paper-checkbox>
+                </div>
+                <div class="row">  
+                <paper-checkbox class="col-xs-12 pb-2" .checked=${this.userRegistration.cb_toadvertisepromote}
+                @change=${e=>{this.userRegistration.cb_toadvertisepromote=e.currentTarget.checked}} >To advertise/promote my products/services</paper-checkbox>
+                </div>
+                <div class="row">  
+                <paper-checkbox class="col-xs-11 pb-2" .checked=${this.userRegistration.cb_businessevents}
+                @change=${e=>{this.userRegistration.cb_businessevents=e.currentTarget.checked}} >Business events</paper-checkbox>
+                </div>
+                <div class="row">  
+                <paper-checkbox class="col-xs-11 pb-2" .checked=${this.userRegistration.cb_educationalevents}
+                @change=${e=>{this.userRegistration.cb_educationalevents=e.currentTarget.checked}} >Educational events</paper-checkbox>
+                </div>
+                <div class="row">  
+                <paper-checkbox class="col-xs-11 pb-2" .checked=${this.userRegistration.cb_socialevents}
+                @change=${e=>{this.userRegistration.cb_socialevents=e.currentTarget.checked}} >Social events</paper-checkbox>
+                </div>
+                <div class="row">  
+                <paper-checkbox class="col-xs-11 pb-2" .checked=${this.userRegistration.cb_charityevents}
+                @change=${e=>{this.userRegistration.cb_charityevents=e.currentTarget.checked}} >Charity events</paper-checkbox>
+                </div>
+                <div class="row">  
+                
+                </div>
+
+                </div>
+ 
+                
+                <div class="col-xs-12">
+                    <paper-checkbox class="col-xs-3 pb-2" .checked=${this.userRegistration.cb_other_programactivities} 
+                    @change=${e=>{this.userRegistration.cb_other_programactivities=e.currentTarget.checked}} style="width:90px;">Other:</paper-checkbox>
+                    <paper-input class="col-xs-8 col-md-4 col-lg-3 pb-2" no-label-float .value=${this.userRegistration.other_programactivities}
+                    @blur=${e=>{this.userRegistration.other_programactivities=e.currentTarget.value;e.currentTarget.invalid=!1}} ></paper-input>
+                </div>
               </div>
-              <div class="col-xs-12 pb-4">
-                <paper-button class="button" class="col-xs-11" raised @click="${e=>{this.openMessage()}}">Pay Now</paper-button> 
+              <div class="col-xs-12">
+                <h4 class="mb-2 mt-2">Note for your kind attention:</h4>
+                <div>Upon receiving this Form, our representatives will contact you soon to understand more about your interests and also answer any queries that you might have, so that we can try to offer the best possible services meeting your expectations. Further steps to participate in the events and activities will also be explained.</div>
+              </div>
+              <div class="col-xs-12 pb-4 pt-4" >
+                <paper-button class="button" raised @click="${e=>{this.register()}}">Submit</paper-button> 
               </div>
             </div>            
           </div>
         </div>
       </div>
-    </div>   
-${this.opened?this.openMessage():null}
-            `}catch(error){console.log(error)}}openMessage(){this.opened=!0;return _myApp.html`<paper-dialog id="dialog" opened="${this.opened}">
-      <div class="title">Registration</div>
-      <p>Registration completed Successfully</p>
-      <div style="text-align:right;">
-      <a href="/login"> <paper-button class="button" @click="${e=>{this.opened=!1}}">OK</paper-button></a>
-      </div>
-    </paper-dialog>`}stateChanged(state){}}window.customElements.define("my-register",MyRegister)});
+    </div>
+    ${this.opened?this.openMessage():null}`}catch(error){console.log(error)}}register(){if(this.requiredFieldValidate()){if(this.userRegistration.user_password==this.userRegistration.confirm_user_password){this.openMessage();// fetch('http://localhost:3000/user-registration', {        
+//     method: 'POST',
+//     mode: "cors",
+//     headers: {
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json'
+//     },
+//     responseType: "application/json",
+//     body: JSON.stringify(this.userRegistration)
+// }).then((res) => res.text())
+// .then((body) => {
+//   var data=JSON.parse(body);
+//   if(data.statuscode=="OK"){
+//     this.openMessage();
+//   }
+//   else{
+//   alert(data.statusdescription);
+//   }
+// });
+}else{alert("Password and confirm password should be match");var elm=this.shadowRoot.getElementById("txtConfirmPassword");if(elm){elm.invalid=!0;elm.focus()}}}}openMessage(){this.clear();this.opened=!0;return _myApp.html`<paper-dialog id="dialog" opened="${this.opened}">
+            <div class="title">Registration</div>
+            <p>Registration completed Successfully</p>
+            <div style="text-align:right;">
+            <paper-button class="button" @click="${e=>{this.opened=!1;this.gotoLoginPage()}}">OK</paper-button>
+            </div>
+          </paper-dialog>`}requiredFieldValidate(){let valid=!0,reqelements=[],arr=this.shadowRoot.querySelectorAll("paper-input:is([required]):not([readonly]):not([disabled])");reqelements=Array.prototype.filter.call(arr,t=>t.validate&&!0==t.required);Array.prototype.forEach.call(reqelements,t=>{let value="";switch(t.localName){case"paper-input":value=t.value;break;}if(!value)valid=t.validate()&&valid});if(!valid)alert("All required fields must be entered.");else{let invalidelements=Array.prototype.filter.call(arr,t=>!0==t.invalid);if(0<invalidelements.length){alert("Please enter valid value(s)");valid=!1}}return valid}clear(){this.userRegistration={user_registered_email:"",user_password:"",confirm_user_password:"",user_fullname:"",residenceofemiratesinuae:"",nationality:"",user_bloodgroup:"",mobilenumber_countrycode:"",mobilenumber:"",officecontact_countrycode:"",office_contactnumber:"",whatsappnumber:"",businessname:"",cb_networking:!1,cb_businesspromdev:!1,cb_investopportunities:!1,cb_knowlsharingdev:!1,cb_mentorship:!1,cb_communityservice:!1,cb_others_theriseevents:!1,others_theriseevents:"",cb_itandites:!1,cb_tradingretail:!1,cb_constgeneralcontracting:!1,cb_reestpropdev_management:!1,cb_ownersass_management:!1,cb_facilitiesmanagement:!1,cb_realstatebrokerage:!1,cb_mediaadvert_eventmanagement:!1,cb_healthcarepharma:!1,cb_supplychainandlogistics:!1,cb_manufacturing:!1,cb_energy_oil_gas_renewables:!1,cb_mining:!1,cb_legalauditingtaxation:!1,cb_financialservices:!1,cb_educationtrainings:!1,cb_hrmanpowerservice:!1,cb_designenggservice:!1,cb_hospitality:!1,cb_foodandberverages:!1,cb_other_businessverticals:!1,other_businessverticals:"",rb_bestsuites:0,other_bestsuites:"",cb_yearlongevents:!1,cb_toadvertisepromote:!1,cb_businessevents:!1,cb_educationalevents:!1,cb_socialevents:!1,cb_charityevents:!1,cb_other_programactivities:!1,other_programactivities:""};this.requestUpdate()}gotoLoginPage(){this.dispatchEvent(new CustomEvent("gotopage",{bubbles:!0,composed:!0,detail:{hash:"login",data:{}}}))}stateChanged(state){}}window.customElements.define("my-register",MyRegister)});

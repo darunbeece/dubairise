@@ -9322,6 +9322,122 @@ svg.style.cssText=cssText;svg.appendChild(content).removeAttribute("id");return 
     <style>
       :host {
         display: inline-block;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #baseURIAnchor {
+        display: none;
+      }
+
+      #sizedImgDiv {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+
+        display: none;
+      }
+
+      #img {
+        display: block;
+        width: var(--iron-image-width, auto);
+        height: var(--iron-image-height, auto);
+      }
+
+      :host([sizing]) #sizedImgDiv {
+        display: block;
+      }
+
+      :host([sizing]) #img {
+        display: none;
+      }
+
+      #placeholder {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+
+        background-color: inherit;
+        opacity: 1;
+
+        @apply --iron-image-placeholder;
+      }
+
+      #placeholder.faded-out {
+        transition: opacity 0.5s linear;
+        opacity: 0;
+      }
+    </style>
+
+    <a id="baseURIAnchor" href="#"></a>
+    <div id="sizedImgDiv" role="img" hidden$="[[_computeImgDivHidden(sizing)]]" aria-hidden$="[[_computeImgDivARIAHidden(alt)]]" aria-label$="[[_computeImgDivARIALabel(alt, src)]]"></div>
+    <img id="img" alt$="[[alt]]" hidden$="[[_computeImgHidden(sizing)]]" crossorigin$="[[crossorigin]]" on-load="_imgOnLoad" on-error="_imgOnError">
+    <div id="placeholder" hidden$="[[_computePlaceholderHidden(preload, fade, loading, loaded)]]" class$="[[_computePlaceholderClassName(preload, fade, loading, loaded)]]"></div>
+`,is:"iron-image",properties:{/**
+     * The URL of an image.
+     */src:{type:String,value:""},/**
+     * A short text alternative for the image.
+     */alt:{type:String,value:null},/**
+     * CORS enabled images support:
+     * https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
+     */crossorigin:{type:String,value:null},/**
+     * When true, the image is prevented from loading and any placeholder is
+     * shown.  This may be useful when a binding to the src property is known to
+     * be invalid, to prevent 404 requests.
+     */preventLoad:{type:Boolean,value:!1},/**
+     * Sets a sizing option for the image.  Valid values are `contain` (full
+     * aspect ratio of the image is contained within the element and
+     * letterboxed) or `cover` (image is cropped in order to fully cover the
+     * bounds of the element), or `null` (default: image takes natural size).
+     */sizing:{type:String,value:null,reflectToAttribute:!0},/**
+     * When a sizing option is used (`cover` or `contain`), this determines
+     * how the image is aligned within the element bounds.
+     */position:{type:String,value:"center"},/**
+     * When `true`, any change to the `src` property will cause the
+     * `placeholder` image to be shown until the new image has loaded.
+     */preload:{type:Boolean,value:!1},/**
+     * This image will be used as a background/placeholder until the src image
+     * has loaded.  Use of a data-URI for placeholder is encouraged for instant
+     * rendering.
+     */placeholder:{type:String,value:null,observer:"_placeholderChanged"},/**
+     * When `preload` is true, setting `fade` to true will cause the image to
+     * fade into place.
+     */fade:{type:Boolean,value:!1},/**
+     * Read-only value that is true when the image is loaded.
+     */loaded:{notify:!0,readOnly:!0,type:Boolean,value:!1},/**
+     * Read-only value that tracks the loading state of the image when the
+     * `preload` option is used.
+     */loading:{notify:!0,readOnly:!0,type:Boolean,value:!1},/**
+     * Read-only value that indicates that the last set `src` failed to load.
+     */error:{notify:!0,readOnly:!0,type:Boolean,value:!1},/**
+     * Can be used to set the width of image (e.g. via binding); size may also
+     * be set via CSS.
+     */width:{observer:"_widthChanged",type:Number,value:null},/**
+     * Can be used to set the height of image (e.g. via binding); size may also
+     * be set via CSS.
+     *
+     * @attribute height
+     * @type number
+     * @default null
+     */height:{observer:"_heightChanged",type:Number,value:null}},observers:["_transformChanged(sizing, position)","_loadStateObserver(src, preventLoad)"],created:function(){this._resolvedSrc=""},_imgOnLoad:function(){if(this.$.img.src!==this._resolveSrc(this.src)){return}this._setLoading(!1);this._setLoaded(!0);this._setError(!1)},_imgOnError:function(){if(this.$.img.src!==this._resolveSrc(this.src)){return}this.$.img.removeAttribute("src");this.$.sizedImgDiv.style.backgroundImage="";this._setLoading(!1);this._setLoaded(!1);this._setError(!0)},_computePlaceholderHidden:function(){return!this.preload||!this.fade&&!this.loading&&this.loaded},_computePlaceholderClassName:function(){return this.preload&&this.fade&&!this.loading&&this.loaded?"faded-out":""},_computeImgDivHidden:function(){return!this.sizing},_computeImgDivARIAHidden:function(){return""===this.alt?"true":void 0},_computeImgDivARIALabel:function(){if(null!==this.alt){return this.alt}// Polymer.ResolveUrl.resolveUrl will resolve '' relative to a URL x to
+// that URL x, but '' is the default for src.
+if(""===this.src){return""}// NOTE: Use of `URL` was removed here because IE11 doesn't support
+// constructing it. If this ends up being problematic, we should
+// consider reverting and adding the URL polyfill as a dev dependency.
+var resolved=this._resolveSrc(this.src);// Remove query parts, get file name.
+return resolved.replace(/[?|#].*/g,"").split("/").pop()},_computeImgHidden:function(){return!!this.sizing},_widthChanged:function(){this.style.width=isNaN(this.width)?this.width:this.width+"px"},_heightChanged:function(){this.style.height=isNaN(this.height)?this.height:this.height+"px"},_loadStateObserver:function(src,preventLoad){var newResolvedSrc=this._resolveSrc(src);if(newResolvedSrc===this._resolvedSrc){return}this._resolvedSrc="";this.$.img.removeAttribute("src");this.$.sizedImgDiv.style.backgroundImage="";if(""===src||preventLoad){this._setLoading(!1);this._setLoaded(!1);this._setError(!1)}else{this._resolvedSrc=newResolvedSrc;this.$.img.src=this._resolvedSrc;this.$.sizedImgDiv.style.backgroundImage="url(\""+this._resolvedSrc+"\")";this._setLoading(!0);this._setLoaded(!1);this._setError(!1)}},_placeholderChanged:function(){this.$.placeholder.style.backgroundImage=this.placeholder?"url(\""+this.placeholder+"\")":""},_transformChanged:function(){var sizedImgDivStyle=this.$.sizedImgDiv.style,placeholderStyle=this.$.placeholder.style;sizedImgDivStyle.backgroundSize=placeholderStyle.backgroundSize=this.sizing;sizedImgDivStyle.backgroundPosition=placeholderStyle.backgroundPosition=this.sizing?this.position:"";sizedImgDivStyle.backgroundRepeat=placeholderStyle.backgroundRepeat=this.sizing?"no-repeat":""},_resolveSrc:function(testSrc){var resolved=resolveUrl(testSrc,this.$.baseURIAnchor.href);// NOTE: Use of `URL` was removed here because IE11 doesn't support
+// constructing it. If this ends up being problematic, we should
+// consider reverting and adding the URL polyfill as a dev dependency.
+if(2<=resolved.length&&"/"===resolved[0]&&"/"!==resolved[1]){// In IE location.origin might not work
+// https://connect.microsoft.com/IE/feedback/details/1763802/location-origin-is-undefined-in-ie-11-on-windows-10-but-works-on-windows-7
+resolved=(location.origin||location.protocol+"//"+location.host)+resolved}return resolved}});Polymer({_template:html`
+    <style>
+      :host {
+        display: inline-block;
       }
     </style>
     <slot id="content"></slot>
@@ -11269,7 +11385,128 @@ if(this.hasRipple()&&1>this.getRipple().ripples.length){this._ripple.uiDownActio
       --default-primary-color: var(--primary-color);
     }
   </style>
-</custom-style>`;template$8.setAttribute("style","display: none;");document.head.appendChild(template$8.content);const template$9=html`<style>
+</custom-style>`;template$8.setAttribute("style","display: none;");document.head.appendChild(template$8.content);Polymer({_template:html`
+    <style include="paper-material-styles">
+      :host {
+        display: inline-block;
+        position: relative;
+        box-sizing: border-box;
+        background-color: var(--paper-card-background-color, var(--primary-background-color));
+        border-radius: 2px;
+
+        @apply --paper-font-common-base;
+        @apply --paper-card;
+      }
+
+      /* IE 10 support for HTML5 hidden attr */
+      :host([hidden]), [hidden] {
+        display: none !important;
+      }
+
+      .header {
+        position: relative;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+        overflow: hidden;
+
+        @apply --paper-card-header;
+      }
+
+      .header iron-image {
+        display: block;
+        width: 100%;
+        --iron-image-width: 100%;
+        pointer-events: none;
+
+        @apply --paper-card-header-image;
+      }
+
+      .header .title-text {
+        padding: 16px;
+        font-size: 24px;
+        font-weight: 400;
+        color: var(--paper-card-header-color, #000);
+
+        @apply --paper-card-header-text;
+      }
+
+      .header .title-text.over-image {
+        position: absolute;
+        bottom: 0px;
+
+        @apply --paper-card-header-image-text;
+      }
+
+      :host ::slotted(.card-content) {
+        padding: 16px;
+        position:relative;
+
+        @apply --paper-card-content;
+      }
+
+      :host ::slotted(.card-actions) {
+        border-top: 1px solid #e8e8e8;
+        padding: 5px 16px;
+        position:relative;
+
+        @apply --paper-card-actions;
+      }
+
+      :host([elevation="1"]) {
+        @apply --paper-material-elevation-1;
+      }
+
+      :host([elevation="2"]) {
+        @apply --paper-material-elevation-2;
+      }
+
+      :host([elevation="3"]) {
+        @apply --paper-material-elevation-3;
+      }
+
+      :host([elevation="4"]) {
+        @apply --paper-material-elevation-4;
+      }
+
+      :host([elevation="5"]) {
+        @apply --paper-material-elevation-5;
+      }
+    </style>
+
+    <div class="header">
+      <iron-image hidden\$="[[!image]]" aria-hidden\$="[[_isHidden(image)]]" src="[[image]]" alt="[[alt]]" placeholder="[[placeholderImage]]" preload="[[preloadImage]]" fade="[[fadeImage]]"></iron-image>
+      <div hidden\$="[[!heading]]" class\$="title-text [[_computeHeadingClass(image)]]">[[heading]]</div>
+    </div>
+
+    <slot></slot>
+`,is:"paper-card",properties:{/**
+     * The title of the card.
+     */heading:{type:String,value:"",observer:"_headingChanged"},/**
+     * The url of the title image of the card.
+     */image:{type:String,value:""},/**
+     * The text alternative of the card's title image.
+     */alt:{type:String},/**
+     * When `true`, any change to the image url property will cause the
+     * `placeholder` image to be shown until the image is fully rendered.
+     */preloadImage:{type:Boolean,value:!1},/**
+     * When `preloadImage` is true, setting `fadeImage` to true will cause the
+     * image to fade into place.
+     */fadeImage:{type:Boolean,value:!1},/**
+     * This image will be used as a background/placeholder until the src image
+     * has loaded. Use of a data-URI for placeholder is encouraged for instant
+     * rendering.
+     */placeholderImage:{type:String,value:null},/**
+     * The z-depth of the card, from 0-5.
+     */elevation:{type:Number,value:1,reflectToAttribute:!0},/**
+     * Set this to true to animate the card shadow when setting a new
+     * `z` value.
+     */animatedShadow:{type:Boolean,value:!1},/**
+     * Read-only property used to pass down the `animatedShadow` value to
+     * the underlying paper-material style (since they have different names).
+     */animated:{type:Boolean,reflectToAttribute:!0,readOnly:!0,computed:"_computeAnimated(animatedShadow)"}},/**
+   * Format function for aria-hidden. Use the ! operator results in the
+   * empty string when given a falsy value.
+   */_isHidden:function(image){return image?"false":"true"},_headingChanged:function(heading){var currentHeading=this.getAttribute("heading"),currentLabel=this.getAttribute("aria-label");if("string"!==typeof currentLabel||currentLabel===currentHeading){this.setAttribute("aria-label",heading)}},_computeHeadingClass:function(image){return image?" over-image":""},_computeAnimated:function(animatedShadow){return animatedShadow}});const template$9=html`<style>
   :host {
     display: inline-block;
     white-space: nowrap;
@@ -14193,7 +14430,12 @@ h2 {
   text-align: center;
   color: var(--app-dark-text-color);
 }
-
+.primary-color{
+  background: var(--app-primary-color);
+}
+.primary-text-color{
+  color: var(--app-primary-color);
+}
 @media (min-width: 460px) {
   h2 {
     font-size: 36px;
@@ -14226,6 +14468,20 @@ h2 {
   line-height: 54px;
 }
 
+paper-input{
+  --paper-input-container-label:{
+    color:#3d84c4;
+  }
+}
+.alignright{
+  text-align: right;
+}
+.alignleft{
+  text-align: left;
+}
+.aligncenter{
+  text-align: center;
+}
     a{
       cursor: pointer;
         text-decoration: none;
@@ -15135,7 +15391,22 @@ margin-left: 0%;
         border-radius: 10px;
         box-shadow: 0 3px 10px -1px rgba(0, 0, 0, 0.12), 0 3px 10px 3px rgba(0, 0, 0, 0.12), 0 3px 10px -1px rgba(0, 0, 0, 0.12) ;
     }
-
+    .custom-button{
+      border-radius: 0px 15px;
+    padding: 8px;
+    text-align: center;
+     max-width:150px;
+     box-shadow: 0 2px 5px -1px rgba(0, 0, 0, 0.06), 0 2px 5px 3px rgba(0, 0, 0, 0.06), 0 2px 5px -1px rgba(0, 0, 0, 0.06) ;
+    }
+    .outline-button{
+      border-radius: 8px;
+    padding: 6px 12px;
+    margin:5px; font-weight:600;
+    text-align: center; color:var(--app-primary-color);  
+     max-width:160px;
+      border:1px solid var(--app-primary-color);  font-size:13px;
+      box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.04), 0 2px 4px 2px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.04) ;
+    }
     .button:disabled {
         background-color: grey;
     }
@@ -15157,7 +15428,7 @@ margin-left: 0%;
 
           --app-drawer-width: 256px;
 
-          --app-primary-color: #E91E63;
+          --app-primary-color: rgb(61, 132, 196); /*#E91E63;*/
           --app-secondary-color: #383838;
           --app-dark-text-color: var(--app-secondary-color);
           --app-light-text-color: white;
@@ -15193,7 +15464,7 @@ margin-left: 0%;
         }
 
         [main-title] {
-          /*font-family: 'Pacifico';
+          /*font-family: 'Arial';
           text-transform: lowercase;*/
           font-size: 30px;
           /* In the narrow layout, the toolbar is offset by the width of the
@@ -15206,8 +15477,8 @@ margin-left: 0%;
           display: none;
           position: absolute;
           right: 0;
-          font-size:15px;
-          font-family:'muli';
+          font-size:17px;
+          font-family:'Arial';
         }
         .logodesk{
           margin-top:45px;
@@ -15283,7 +15554,7 @@ margin-left: 0%;
         }
 
         footer {
-          padding: 24px;
+          padding: 15px;
           background: var(--app-drawer-background-color);
           color: var(--app-drawer-text-color);
           text-align: center;
@@ -15381,6 +15652,34 @@ margin-left: 0%;
             cursor: pointer;
           }
 
+        .spannamecss
+        {
+          color:var(--app-primary-color);
+            
+            max-width:140px;
+            height:25px;
+            display:none;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-spacing: normal;
+            vertical-align: text-bottom;
+            line-height: 25px;
+        }
+
+        .spannamecirclecss
+        {
+            display:none;
+            border-radius: 50%;
+            background:var(--app-primary-color);
+            text-align: center;
+            width:14px;
+            height:14px;
+            color:#fff;
+            padding: 7px;
+            line-height: 18px;
+            text-transform: uppercase;
+        }
+
           .main-content {
             padding-top: 56px;
           }
@@ -15391,6 +15690,32 @@ margin-left: 0%;
             padding-right: 0px;
           }
         }
+        #userinfo{
+          position:absolute;
+          right:10px;
+          top:65px;
+          background:#f9f9f9;
+          border:1px solid #f3f3f3;
+          display:none;
+          border-radius:10px;
+          width:130px;
+          
+        }
+        #userinfo span{
+          
+          display:block;
+          color:#474747;
+          padding:5px;
+          font-size:13px;
+          text-align:left;
+          line-height:18px;
+        }
+
+        .footheader{
+          color:white;
+          margin:5px 0px;
+          text-align: left;
+        }
       `]}render(){// Anything that's related to rendering should be done in here.
 return html$1`
       <!-- Header -->
@@ -15398,9 +15723,9 @@ return html$1`
         <app-toolbar sticky class="toolbar-top">
          
           
-          <div >
+          <div  >
             <a href="/home">
-                <img src=${this.rootPath+"images/dtr-logo-small.png"}  alt="logo">
+                <img src=${this.rootPath+"images/rise_dubai.jpg"}  alt="logo">
             </a>
           </div>
 
@@ -15423,20 +15748,24 @@ return html$1`
                 <a ?selected="${"contact"===this._page}" href="/contact">Contact Us</a>
                 <a ?selected="${"register"===this._page}" href="/register">Register Now </a>
                 <a ?selected="${"login"===this._page}" href="/login">Login</a>-->
+
                <a ?selected="${"/home"===this._page}" @click="${e=>this._gotoPage({hash:"home"})}">Home</a>
                <a ?selected="${"/about"===this._page}" @click="${e=>this._gotoPage({hash:"about"})}" >About the Rise</a>
-               <a ?selected="${"/event"===this._page}" @click="${e=>this._gotoPage({hash:"event"})}" >The Event</a>
-               <a ?selected="${"/contact"===this._page}" @click="${e=>this._gotoPage({hash:"contact"})}" >Contact Us</a>
-               <a ?selected="${"/register"===this._page}" @click="${e=>this._gotoPage({hash:"register"})}" >Register Now </a>
-               <a ?selected="${"/login"===this._page}" @click="${e=>this._gotoPage({hash:"login"})}" >Login</a>
-                </nav>
-                <paper-icon-button class="menu-btn" icon="icons:menu"  @click="${this._menuButtonClicked}">${menuIcon}</paper-icon-button>
-                 
+               <a ?selected="${"/event"===this._page}" @click="${e=>this._gotoPage({hash:"event"})}" >Events</a>  
+               <a @click="${e=>{window.open("https://www.bncnetwork.net/")}}" >Networking</a>
+               <a id="loginmenu" ?selected="${"/login"===this._page}" @click="${e=>this._gotoPage({hash:"login"})}" >Login</a>
+               <a @click="${e=>this._userinfo()}">
+                <span id="spancircle" class="spannamecirclecss"></span>
+                <span id="namespan"   class="spannamecss"></span>
+                </a>
+            </nav>
+            <div id="userinfo" >
+            <span style="border-bottom:1px solid #f1f1f1;">User Profile</span>
+            <span  @click="${e=>this._logout()}">Logout</span>
+            </div>
+                <paper-icon-button class="menu-btn" icon="icons:menu"  @click="${this._menuButtonClicked}">${menuIcon}</paper-icon-button>                 
                
         </app-toolbar>
-         
-  
-
         
       </app-header>
 
@@ -15448,14 +15777,13 @@ return html$1`
         <!--  <a ?selected="${"home"===this._page}" href="/home">Home</a>
         <a ?selected="${"about"===this._page}" href="/about">About the Rise</a>
         <a ?selected="${"event"===this._page}" href="/event">The Event</a>
-        <a ?selected="${"contact"===this._page}" href="/contact">Contact Us</a>
         <a ?selected="${"register"===this._page}" href="/register">Register Now </a>
         <a ?selected="${"login"===this._page}" href="/login">Login</a>-->
+
        <a ?selected="${"/home"===this._page}" @click="${e=>this._gotoPage({hash:"home"})}">Home</a>
        <a ?selected="${"/about"===this._page}" @click="${e=>this._gotoPage({hash:"about"})}" >About the Rise</a>
-       <a ?selected="${"/event"===this._page}" @click="${e=>this._gotoPage({hash:"event"})}" >The Event</a>
-       <a ?selected="${"/contact"===this._page}" @click="${e=>this._gotoPage({hash:"contact"})}" >Contact Us</a>
-       <a ?selected="${"/register"===this._page}" @click="${e=>this._gotoPage({hash:"register"})}" >Register Now </a>
+       <a ?selected="${"/event"===this._page}" @click="${e=>this._gotoPage({hash:"event"})}" >Events</a>
+       <a @click="${e=>{window.open("https://www.bncnetwork.net/")}}" >Networking</a>
        <a ?selected="${"/login"===this._page}" @click="${e=>this._gotoPage({hash:"login"})}" >Login</a>
         </nav>
       </app-drawer>
@@ -15477,7 +15805,7 @@ return html$1`
        
           <div class="cols">
             <div>
-            <img src=${this.rootPath+"images/dtr-logo-small.png"}  alt="logo">
+            <img src=${this.rootPath+"images/rise_logo.png"}  alt="logo">
             <div>For More Information Call Our<br>
             Toll Free Number:<br>
             1800 123 8273</div>
@@ -15485,7 +15813,7 @@ return html$1`
           </div>
           <div class="cols">
             <div>
-              <h2>Rise HQ</h2>
+              <h2 class="footheader">Rise HQ</h2>
               <div>No.68, St. Thomas Building,<br>
               1st Floor, Luz Church Rd,<br>
               Kattukoil Garden, Mylapore, <br>Chennai,Tamil Nadu - 600004</div>
@@ -15493,7 +15821,7 @@ return html$1`
           </div>
           <div class="cols">
             <div>
-            <h2>For Sponsorship</h2>
+            <h2 class="footheader">For Sponsorship</h2>
               <div>Mr. Saravanan<br>
               +60125267923<br>
               sponsors@tamilrise.org</div>
@@ -15501,7 +15829,7 @@ return html$1`
           </div>
           <div class="cols">
           <div>
-          <h2>Contact</h2>
+          <h2 class="footheader">Contact</h2>
           <div> info@tamilrise.org<br>
           support@tamilrise.org<br>
           +91 73959 22365</div>
@@ -15515,13 +15843,16 @@ return html$1`
       </snack-bar>
     `}constructor(){super();this.rootPath=window.Polymer.rootPath;// To force all event listeners for gestures to be passive.
 // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
-setPassiveTouchGestures(!0);this._importAllPages();this._initializePage();this.addEventListener("gotopage",e=>{this._gotoPage(e.detail)})}firstUpdated(){installRouter(location=>store.dispatch(navigate(decodeURIComponent(location.hash))));installOfflineWatcher(offline=>store.dispatch(updateOffline(offline)));installMediaQueryWatcher(`(min-width: 460px)`,()=>store.dispatch(updateDrawerState(!1)))}updated(changedProps){if(changedProps.has("_page")){// const pageTitle = this.appTitle + ' - ' + this._page;
+setPassiveTouchGestures(!0);this._importAllPages();this._initializePage();this.addEventListener("gotopage",e=>{this._gotoPage(e.detail)});this.addEventListener("loginsuccess",e=>{this._loginsuccess(e.detail)})}firstUpdated(){installRouter(location=>store.dispatch(navigate(decodeURIComponent(location.hash))));installOfflineWatcher(offline=>store.dispatch(updateOffline(offline)));installMediaQueryWatcher(`(min-width: 460px)`,()=>store.dispatch(updateDrawerState(!1)))}updated(changedProps){if(changedProps.has("_page")){// const pageTitle = this.appTitle + ' - ' + this._page;
 const pageTitle=this.appTitle;updateMetadata({title:pageTitle,description:pageTitle// This object also takes an image property, that points to an img src.
-});if(!this._page){this._gotoPage({hash:"home"})}}}_menuButtonClicked(){store.dispatch(updateDrawerState(!0))}_drawerOpenedChanged(e){store.dispatch(updateDrawerState(e.target.opened))}_importAllPages(){new Promise((res,rej)=>_require.default(["../partials/home.js"],res,rej)).then(bundle=>bundle&&bundle.$home||{});new Promise((res,rej)=>_require.default(["../partials/about.js"],res,rej)).then(bundle=>bundle&&bundle.$about||{});new Promise((res,rej)=>_require.default(["../partials/event.js"],res,rej)).then(bundle=>bundle&&bundle.$event||{});new Promise((res,rej)=>_require.default(["../partials/contact.js"],res,rej)).then(bundle=>bundle&&bundle.$contact||{});new Promise((res,rej)=>_require.default(["../partials/register.js"],res,rej)).then(bundle=>bundle&&bundle.$register||{});new Promise((res,rej)=>_require.default(["../partials/login.js"],res,rej)).then(bundle=>bundle&&bundle.$login||{})}_initializePage(){try{this._navHistory={backStack:[],current:{location:"",initialPlaceholder:!0},forwardStack:[]};// this.addEventListener("gotopage", (e) => {
+});if(!this._page){this._gotoPage({hash:"home"})}}}_menuButtonClicked(){store.dispatch(updateDrawerState(!0))}_drawerOpenedChanged(e){store.dispatch(updateDrawerState(e.target.opened))}_importAllPages(){new Promise((res,rej)=>_require.default(["../partials/home.js"],res,rej)).then(bundle=>bundle&&bundle.$home||{});new Promise((res,rej)=>_require.default(["../partials/about.js"],res,rej)).then(bundle=>bundle&&bundle.$about||{});new Promise((res,rej)=>_require.default(["../partials/event.js"],res,rej)).then(bundle=>bundle&&bundle.$event||{});new Promise((res,rej)=>_require.default(["../partials/register.js"],res,rej)).then(bundle=>bundle&&bundle.$register||{});new Promise((res,rej)=>_require.default(["../partials/login.js"],res,rej)).then(bundle=>bundle&&bundle.$login||{})}_initializePage(){try{this._navHistory={backStack:[],current:{location:"",initialPlaceholder:!0},forwardStack:[]};//this._drawerOpened1 = false;
+// this.addEventListener("gotopage", (e) => {
 //   this._gotoPage(e.detail);
 // });
 }catch(error){CV.log(error)}}_gotoPage(args){if("home"==args.hash){this._navHistory={backStack:[],current:{location:"",initialPlaceholder:!0},forwardStack:[]}}//this._pageParam = args.data;
 window.history.pushState({},"",this._buildURL(args));//location.hash  = args.hash;
-installRouter(location=>store.dispatch(navigate(decodeURIComponent(location.hash))));this._navHistory.forwardStack=[];if(!this._navHistory.current.initialPlaceholder){this._navHistory.backStack.push(this._navHistory.current)}this._navHistory.current={location:args.hash,state:args.data,initialPlaceholder:!1}}_buildURL(args){return this.rootPath.concat("#/",args.hash)}stateChanged(state){this._page=state.app.page;this._offline=state.app.offline;this._snackbarOpened=state.app.snackbarOpened;this._drawerOpened=state.app.drawerOpened}//SAK
+installRouter(location=>store.dispatch(navigate(decodeURIComponent(location.hash))));this._navHistory.forwardStack=[];if(!this._navHistory.current.initialPlaceholder){this._navHistory.backStack.push(this._navHistory.current)}this._navHistory.current={location:args.hash,state:args.data,initialPlaceholder:!1}}_buildURL(args){return this.rootPath.concat("#/",args.hash)}stateChanged(state){this._page=state.app.page;this._offline=state.app.offline;this._snackbarOpened=state.app.snackbarOpened;this._drawerOpened=state.app.drawerOpened}_loginsuccess(e){try{//alert('Login successfully');
+var nameelement=this.shadowRoot.getElementById("namespan");if(nameelement){nameelement.style.display="inline-flex";if(e.data){nameelement.innerHTML=e.data}}var elementcircle=this.shadowRoot.getElementById("spancircle");if(elementcircle&&e.data&&0<e.data.length){elementcircle.style.display="inline-flex";elementcircle.innerHTML=e.data.charAt(0)}var loginelement=this.shadowRoot.getElementById("loginmenu");if(loginelement)loginelement.style.display="none";this._gotoPage({hash:"home"})}catch(e){CV.log(e)}}_userinfo(e){try{var userdiv=this.shadowRoot.getElementById("userinfo");if(userdiv){userdiv.style.display="block"}else{userdiv.style.display="none"}}catch(e){CV.log(e)}}_logout(e){try{//alert('Logedout Successfully');
+var nameelement=this.shadowRoot.getElementById("namespan");if(nameelement){nameelement.style.display="none";nameelement.innerHTML=""}var elementcircle=this.shadowRoot.getElementById("spancircle");if(elementcircle){elementcircle.style.display="none";elementcircle.innerHTML=""}var userdiv=this.shadowRoot.getElementById("userinfo");if(userdiv)userdiv.style.display="none";var loginelement=this.shadowRoot.getElementById("loginmenu");if(loginelement)loginelement.style.display="inline";this._gotoPage({hash:"home"})}catch(e){CV.log(e)}}//SAK
 get _showHomePage(){return html$1`<my-home name="home" class="page" ?active="${"/home"===this._page}" .rootPath="${this.rootPath}"></my-home>`}get _showAboutPage(){return html$1`<my-about class="page" ?active="${"/about"===this._page}" .rootPath="${this.rootPath}"></my-about>`}get _showEventPage(){return html$1`<my-event class="page" ?active="${"/event"===this._page}" .rootPath="${this.rootPath}"></my-event>`}get _showContactPage(){return html$1`<my-contact name="home" class="page" ?active="${"/contact"===this._page}" .rootPath="${this.rootPath}"></my-contact>`}get _showRegisterPage(){return html$1`<my-register class="page" ?active="${"/register"===this._page}" .rootPath="${this.rootPath}"></my-register>`}get _showLoginPage(){return html$1`<my-login class="page" ?active="${"/login"===this._page}" .rootPath="${this.rootPath}"></my-login>`}}window.customElements.define("my-app",MyApp);class PageViewElement extends LitElement{// Only render this page if it's actually visible.
 shouldUpdate(){return this.active}static get properties(){return{active:{type:Boolean}}}}_exports.PageViewElement=PageViewElement;var pageViewElement={PageViewElement:PageViewElement};_exports.$pageViewElement=pageViewElement});
